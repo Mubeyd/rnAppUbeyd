@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, Text, useColorScheme } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { ReduxProvider } from './src/containers/ReduxProvider';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -10,13 +11,15 @@ function App(): JSX.Element {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <Text style={styles.textHeader}>React Native Template</Text>
-    </SafeAreaView>
+    <ReduxProvider>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <Text style={styles.textHeader}>React Native Template</Text>
+      </SafeAreaView>
+    </ReduxProvider>
   );
 }
 
