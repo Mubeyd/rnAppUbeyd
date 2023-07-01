@@ -20,11 +20,14 @@ export default function HomeScreen() {
 
   const onPress = useCallback(() => {
     navigate('DetailsScreen', { id: '1' });
-  }, []);
+  }, [navigate]);
 
-  const onPressItem = useCallback(({ item }: { item: User }) => {
-    dispatch(setCurrentUser(item));
-  }, []);
+  const onPressItem = useCallback(
+    ({ item }: { item: User }) => {
+      dispatch(setCurrentUser(item));
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     async function lol() {
