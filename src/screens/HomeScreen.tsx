@@ -10,7 +10,7 @@ export default function HomeScreen() {
   const { replace, navigate, goBack } = useNavigation() as any;
   const dispatch = useAppDispatch();
 
-  const users = useAppSelector(state => state.user.users);
+  const data = useAppSelector(state => state.user.users);
   const currentUser = useAppSelector(state => state.user.currentUser);
 
   const [loading, setLoading] = useState(true);
@@ -29,12 +29,23 @@ export default function HomeScreen() {
     [dispatch],
   );
 
+  const renderItem = useCallback(
+    ({ item }: { item: User }) => {
+      return (
+        <TouchableOpacity onPress={() => onPressItem({ item })}>
+          <Text style={styles.textHeader}>{item.firstName}</Text>
+        </TouchableOpacity>
+      );
+    },
+    [onPressItem],
+  );
+
   useEffect(() => {
     async function lol() {
       try {
-        const data = await fetchUsers();
-        dispatch(setUsers(data.users));
-        setUsers(data.users);
+        const dataRes = await fetchUsers();
+        dispatch(setUsers(dataRes.users));
+        setUsers(dataRes.users);
         setLoading(false);
       } catch (err: any) {
         setError(err);
@@ -65,14 +76,7 @@ export default function HomeScreen() {
 
       <Text>Users:</Text>
       <View style={styles.listContainer}>
-        <FlatList
-          data={users}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => onPressItem({ item })}>
-              <Text style={styles.textHeader}>{item.firstName}</Text>
-            </TouchableOpacity>
-          )}
-        />
+        <FlatList data={data} renderItem={renderItem} />
       </View>
 
       <TouchableOpacity style={styles.button} onPress={onPress}>
