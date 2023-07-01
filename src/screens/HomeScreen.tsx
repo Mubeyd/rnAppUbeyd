@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { fetchUsers } from '../api/userApi';
 import { User } from '../data/types';
@@ -13,6 +13,9 @@ export default function HomeScreen() {
   const users = useAppSelector(state => state.user.users);
   const currentUser = useAppSelector(state => state.user.currentUser);
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   // console.log('currentUser :>> ', currentUser);
 
   const onPress = useCallback(() => {
@@ -25,12 +28,33 @@ export default function HomeScreen() {
 
   useEffect(() => {
     async function lol() {
-      const data = await fetchUsers();
-      dispatch(setUsers(data.users));
-      setUsers(data.users);
+      try {
+        const data = await fetchUsers();
+        dispatch(setUsers(data.users));
+        setUsers(data.users);
+        setLoading(false);
+      } catch (error: any) {
+        setError(error);
+      }
     }
     lol();
   }, []);
+
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View>
+        <Text>Error: {error}</Text>
+      </View>
+    );
+  }
 
   return (
     <View>
