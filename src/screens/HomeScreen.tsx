@@ -33,12 +33,12 @@ export default function HomeScreen() {
         dispatch(setUsers(data.users));
         setUsers(data.users);
         setLoading(false);
-      } catch (error: any) {
-        setError(error);
+      } catch (err: any) {
+        setError(err);
       }
     }
     lol();
-  }, []);
+  }, [dispatch]);
 
   if (loading) {
     return (
@@ -57,43 +57,56 @@ export default function HomeScreen() {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.textHeader}>HomeScreen</Text>
 
       <Text>Users:</Text>
-
-      <FlatList
-        data={users}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => onPressItem({ item })}>
-            <Text style={styles.textHeader}>{item.firstName}</Text>
-          </TouchableOpacity>
-        )}
-      />
+      <View style={styles.listContainer}>
+        <FlatList
+          data={users}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => onPressItem({ item })}>
+              <Text style={styles.textHeader}>{item.firstName}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
 
       <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={styles.buttonText}>Go to Details</Text>
       </TouchableOpacity>
+      <View style={{ height: 30 }} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  textHeader: {
-    fontSize: 24,
-    fontWeight: '600',
-    textAlign: 'center',
-    color: 'blue',
-  },
   button: {
-    marginTop: 16,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    alignItems: 'center',
+    borderColor: 'blue',
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: 'blue',
+    display: 'flex',
+    height: 40,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
   buttonText: {
     color: 'blue',
+  },
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  listContainer: {
+    flex: 1,
+    marginBottom: 16,
+  },
+  textHeader: {
+    color: 'blue',
+    fontSize: 24,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });

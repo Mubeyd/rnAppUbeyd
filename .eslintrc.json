@@ -1,0 +1,71 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "@typescript-eslint",
+        "react-hooks"
+    ],
+    "extends": [
+        "@react-native",
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react-native/all",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "@react-native-community"
+    ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "overrides": [
+        {
+            "files": [
+                "*.ts",
+                "*.tsx",
+                "*.js",
+                "*.jsx"
+            ],
+            "rules": {
+                "no-dupe-class-members": "off"
+            }
+        }
+    ],
+    "rules": {
+        "semi": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/explicit-member-accessibility": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-parameter-properties": "off",
+        "@typescript-eslint/no-object-literal-type-assertion": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/no-angle-bracket-type-assertion": "off",
+        "no-spaced-func": "off",
+        "no-empty-pattern": "off",
+        "no-dupe-class-members": "off",
+        "@typescript-eslint/interface-name-prefix": "off",
+        "react-native/no-inline-styles": "off",
+        "react-native/no-unused-styles": "warn",
+        "react-native/no-color-literals": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "react/jsx-no-bind": "warn",
+        "radix": "off",
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "auto"
+            },
+            {
+                "singleQuote": true
+            }
+        ],
+        "no-console": "error",
+        "@typescript-eslint/no-var-requires": "warn"
+    }
+}
