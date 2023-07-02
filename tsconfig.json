@@ -18,9 +18,57 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "paths": {
-      "src/*": [
-        "src/*"
-      ]
-    }
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@api/*": [
+        "src/api/*"
+      ],
+      "@config/*": [
+        "src/config/*"
+      ],
+      "@constants/*": [
+        "src/constants/*"
+      ],
+      "@hooks/*": [
+        "src/hooks/*"
+      ],
+      "@navigation/*": [
+        "src/navigation/*"
+      ],
+      "@screens/*": [
+        "src/screens/*"
+      ],
+      "@services/*": [
+        "src/services/*"
+      ],
+      "@store/*": [
+        "src/store/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
+      "@types/*": [
+        "src/types/*"
+      ],
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@theme/*": [
+        "src/theme/*"
+      ],
+      "@i18n/*": [
+        "src/i18n/*"
+      ],
+      "@test/*": [
+        "src/test/*"
+      ],
+      "@__tests__/*": [
+        "src/__tests__/*"
+      ],
+      "@__mocks__/*": [
+        "src/__mocks__/*"
+      ],
+    },
   },
 }

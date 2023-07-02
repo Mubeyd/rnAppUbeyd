@@ -5,9 +5,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 export default function DetailsScreen() {
   const { goBack } = useNavigation() as any;
   const onPress = useCallback(() => {
-    console.log('Button pressed');
     goBack();
-  }, []);
+  }, [goBack]);
   return (
     <View>
       <Text style={styles.textHeader}>DetailsScreen</Text>
@@ -19,21 +18,21 @@ export default function DetailsScreen() {
 }
 
 const styles = StyleSheet.create({
-  textHeader: {
-    fontSize: 24,
-    fontWeight: '600',
-    textAlign: 'center',
-    color: 'blue',
-  },
   button: {
-    marginTop: 16,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    borderColor: 'blue',
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: 'blue',
+    marginTop: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
   buttonText: {
     color: 'blue',
+  },
+  textHeader: {
+    color: 'blue',
+    fontSize: 24,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });

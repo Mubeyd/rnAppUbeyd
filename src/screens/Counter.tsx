@@ -27,7 +27,7 @@ export function Counter() {
         <TextInput
           style={styles.textbox}
           value={incrementAmount}
-          keyboardType='numeric'
+          keyboardType="numeric"
           onChangeText={setIncrementAmount}
         />
         <View>
@@ -49,39 +49,39 @@ export function Counter() {
 }
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-  },
-  value: {
-    fontSize: 78,
-    paddingHorizontal: 16,
-    marginTop: 2,
-    color: 'rgb(112, 76, 182)',
-  },
   button: {
     backgroundColor: 'rgba(112, 76, 182, 0.1)',
     borderRadius: 2,
+    margin: 2,
+    paddingBottom: 4,
     paddingLeft: 12,
     paddingRight: 12,
-    paddingBottom: 4,
-    margin: 2,
   },
   buttonText: {
     color: 'rgb(112, 76, 182)',
     fontSize: 32,
     textAlign: 'center',
   },
-  textbox: {
-    fontSize: 48,
-    padding: 2,
-    width: 64,
-    textAlign: 'center',
-    marginRight: 8,
-    borderWidth: 1,
+  row: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'center',
+  },
+  textbox: {
+    borderWidth: 1,
     color: 'rgb(112, 76, 182)',
+    fontSize: 48,
+    justifyContent: 'center',
+    marginRight: 8,
+    padding: 2,
+    textAlign: 'center',
+    width: 64,
+  },
+  value: {
+    color: 'rgb(112, 76, 182)',
+    fontSize: 78,
+    marginTop: 2,
+    paddingHorizontal: 16,
   },
 });
