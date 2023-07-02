@@ -1,15 +1,42 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useAppSelector } from '../redux/hooks';
 
 export default function DetailsScreen() {
   const { goBack } = useNavigation() as any;
+
+  const currentUser = useAppSelector(state => state.user.currentUser);
+
   const onPress = useCallback(() => {
     goBack();
   }, [goBack]);
+
   return (
-    <View>
-      <Text style={styles.textHeader}>DetailsScreen</Text>
+    <View
+      style={{
+        alignItems: 'center',
+        flex: 1,
+      }}>
+      <Image source={{ uri: currentUser?.image }} style={{ width: 200, height: 200 }} />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          width: '100%',
+        }}>
+        <Text style={styles.textHeader}>{currentUser?.firstName}</Text>
+        <Text style={styles.textHeader}>{currentUser?.lastName}</Text>
+      </View>
+      <Text style={styles.textHeader}>{currentUser?.age}</Text>
+      <Text style={styles.textCompany}>Company Info</Text>
+      <Text style={styles.textHeader}>{currentUser?.company?.name}</Text>
+      <Text style={styles.textHeader}>{currentUser?.company?.title}</Text>
+      <Text style={styles.textHeader}>{currentUser?.company?.address?.address}</Text>
+      <Text style={styles.textHeader}>{currentUser?.company?.address?.city}</Text>
+      <Text style={styles.textHeader}>{currentUser?.company?.address?.state}</Text>
+      <Text style={styles.textHeader}>{currentUser?.company?.address?.postalCode}</Text>
+
       <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={styles.buttonText}>Go Back</Text>
       </TouchableOpacity>
@@ -29,10 +56,18 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'blue',
   },
-  textHeader: {
+  textCompany: {
     color: 'blue',
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: '600',
+    margin: 4,
+    textAlign: 'center',
+  },
+  textHeader: {
+    color: 'black',
+    fontSize: 16,
+    fontWeight: '600',
+    margin: 4,
     textAlign: 'center',
   },
 });

@@ -1,11 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import React, { useCallback, useEffect } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { getUsers } from '../api/userApi';
 import { User } from '../data/types';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { setCurrentUser, setUsers } from '../redux/slices/userSlice';
+import { removeUser, setCurrentUser, setUsers } from '../redux/slices/userSlice';
 
 export default function HomeScreen() {
   const { navigate } = useNavigation() as any;
@@ -23,12 +23,19 @@ export default function HomeScreen() {
   const data = useAppSelector(state => state.user.users);
 
   const onPress = useCallback(() => {
-    navigate('DetailsScreen', { id: '1' });
+    navigate('NewUserScreen');
   }, [navigate]);
 
   const onPressItem = useCallback(
     ({ item }: { item: User }) => {
       dispatch(setCurrentUser(item));
+      navigate('DetailsScreen');
+    },
+    [dispatch, navigate],
+  );
+  const onPressItemRemove = useCallback(
+    ({ item }: { item: User }) => {
+      dispatch(removeUser({ id: item.id ?? 0 }));
     },
     [dispatch],
   );
@@ -36,12 +43,20 @@ export default function HomeScreen() {
   const renderItem = useCallback(
     ({ item }: { item: User }) => {
       return (
-        <TouchableOpacity onPress={() => onPressItem({ item })}>
-          <Text style={styles.textHeader}>{item.firstName}</Text>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity style={styles.touchableOpacity} onPress={() => onPressItem({ item })}>
+            <ImageBackground source={{ uri: item.image }} style={styles.imageBackground} resizeMode="cover">
+              <Text style={styles.textHeader}>{item.firstName}</Text>
+              <Text style={styles.textHeader}>{item.age}</Text>
+            </ImageBackground>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.touchableOpacityRemove} onPress={() => onPressItemRemove({ item })}>
+            <Text style={styles.textHeader}>X</Text>
+          </TouchableOpacity>
+        </View>
       );
     },
-    [onPressItem],
+    [onPressItem, onPressItemRemove],
   );
 
   useEffect(() => {
@@ -60,15 +75,13 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textHeader}>HomeScreenRQ</Text>
-
-      <Text>Users:</Text>
+      <Text>Users List:</Text>
       <View style={styles.listContainer}>
-        {isLoading ? <Text>Loading...</Text> : <FlatList data={data} renderItem={renderItem} />}
+        {isLoading ? <Text>Loading...</Text> : <FlatList data={data} renderItem={renderItem} numColumns={2} />}
       </View>
 
       <TouchableOpacity style={styles.button} onPress={onPress}>
-        <Text style={styles.buttonText}>Go to Details</Text>
+        <Text style={styles.buttonText}>Add New User</Text>
       </TouchableOpacity>
       <View style={{ height: 30 }} />
     </View>
@@ -94,14 +107,39 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  listContainer: {
+  imageBackground: {
+    alignItems: 'flex-end',
     flex: 1,
+    justifyContent: 'flex-start',
+  },
+  listContainer: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
     marginBottom: 16,
   },
   textHeader: {
-    color: 'blue',
-    fontSize: 24,
-    fontWeight: '600',
+    color: 'black',
+    fontSize: 16,
+    fontWeight: 'bold',
+    margin: 6,
     textAlign: 'center',
+  },
+  touchableOpacity: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    height: 150,
+    margin: 10,
+    overflow: 'hidden',
+    width: 150,
+  },
+  touchableOpacityRemove: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    // height: 150,
+    // margin: 10,
+    // overflow: 'hidden',
+    // width: 150,
+    position: 'absolute',
   },
 });
