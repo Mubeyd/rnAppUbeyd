@@ -1,22 +1,26 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React, { useCallback, useEffect } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { fetchUsers } from '../api/userApi';
+import { getUsers } from '../api/userApi';
 import { User } from '../data/types';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { setCurrentUser, setUsers } from '../redux/slices/userSlice';
 
 export default function HomeScreen() {
-  const { replace, navigate, goBack } = useNavigation() as any;
+  const { navigate } = useNavigation() as any;
   const dispatch = useAppDispatch();
 
+  const {
+    data: users,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['users'],
+    queryFn: () => getUsers(),
+  });
+
   const data = useAppSelector(state => state.user.users);
-  const currentUser = useAppSelector(state => state.user.currentUser);
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  // console.log('currentUser :>> ', currentUser);
 
   const onPress = useCallback(() => {
     navigate('DetailsScreen', { id: '1' });
@@ -41,42 +45,26 @@ export default function HomeScreen() {
   );
 
   useEffect(() => {
-    async function lol() {
-      try {
-        const dataRes = await fetchUsers();
-        dispatch(setUsers(dataRes.users));
-        setUsers(dataRes.users);
-        setLoading(false);
-      } catch (err: any) {
-        setError(err);
-      }
+    if (users) {
+      dispatch(setUsers(users));
     }
-    lol();
-  }, [dispatch]);
-
-  if (loading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  }, [users, dispatch]);
 
   if (error) {
     return (
       <View>
-        <Text>Error: {error}</Text>
+        <Text>Error: {(error as any)?.message}</Text>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textHeader}>HomeScreen</Text>
+      <Text style={styles.textHeader}>HomeScreenRQ</Text>
 
       <Text>Users:</Text>
       <View style={styles.listContainer}>
-        <FlatList data={data} renderItem={renderItem} />
+        {isLoading ? <Text>Loading...</Text> : <FlatList data={data} renderItem={renderItem} />}
       </View>
 
       <TouchableOpacity style={styles.button} onPress={onPress}>
