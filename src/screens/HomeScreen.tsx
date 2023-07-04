@@ -2,42 +2,43 @@ import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import React, { useCallback, useEffect } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { getUsers } from '../api/userApi';
-import { User } from '../data/types';
+import { getContacts } from '../api/contactApi';
+import { Contact } from '../data/types';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { setCurrentUser, setUsers } from '../redux/slices/userSlice';
+import { setContacts, setCurrentContact } from '../redux/slices/bookBorrowSlice';
 
 export default function HomeScreen() {
   const { navigate } = useNavigation() as any;
   const dispatch = useAppDispatch();
 
   const {
-    data: users,
+    data: contacts,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ['users'],
-    queryFn: () => getUsers(),
+    queryKey: ['contacts'],
+    queryFn: () => getContacts(),
   });
 
-  const data = useAppSelector(state => state.user.users);
+  const data = useAppSelector(state => state.bookBorrow.contacts);
 
   const onPress = useCallback(() => {
     navigate('DetailsScreen', { id: '1' });
   }, [navigate]);
 
   const onPressItem = useCallback(
-    ({ item }: { item: User }) => {
-      dispatch(setCurrentUser(item));
+    ({ item }: { item: Contact }) => {
+      dispatch(setCurrentContact(item));
+      navigate('DetailsScreen');
     },
-    [dispatch],
+    [dispatch, navigate],
   );
 
   const renderItem = useCallback(
-    ({ item }: { item: User }) => {
+    ({ item }: { item: Contact }) => {
       return (
-        <TouchableOpacity onPress={() => onPressItem({ item })}>
-          <Text style={styles.textHeader}>{item.firstName}</Text>
+        <TouchableOpacity style={styles.contactItemContainer} onPress={() => onPressItem({ item })}>
+          <Text style={styles.contactText}>{item.name}</Text>
         </TouchableOpacity>
       );
     },
@@ -45,10 +46,10 @@ export default function HomeScreen() {
   );
 
   useEffect(() => {
-    if (users) {
-      dispatch(setUsers(users));
+    if (contacts) {
+      dispatch(setContacts(contacts));
     }
-  }, [users, dispatch]);
+  }, [dispatch, contacts]);
 
   if (error) {
     return (
@@ -60,9 +61,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textHeader}>HomeScreenRQ</Text>
-
-      <Text>Users:</Text>
+      <Text>Please select a Contact:</Text>
       <View style={styles.listContainer}>
         {isLoading ? <Text>Loading...</Text> : <FlatList data={data} renderItem={renderItem} />}
       </View>
@@ -90,6 +89,26 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'blue',
   },
+  contactItemContainer: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderColor: 'gray',
+    borderRadius: 4,
+    borderWidth: 1,
+    display: 'flex',
+    elevation: 2,
+    height: 40,
+    justifyContent: 'center',
+    marginBottom: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  contactText: {
+    color: '#1b1d19',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
   container: {
     flex: 1,
     padding: 16,
@@ -97,11 +116,5 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
     marginBottom: 16,
-  },
-  textHeader: {
-    color: 'blue',
-    fontSize: 24,
-    fontWeight: '600',
-    textAlign: 'center',
   },
 });

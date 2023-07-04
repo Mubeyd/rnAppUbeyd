@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import DetailsScreen from '../screens/DetailsScreen';
 import HomeScreen from '../screens/HomeScreen';
+import SummaryScreen from '../screens/SummaryScreen';
 
 const Stack = createStackNavigator();
 
@@ -12,7 +13,7 @@ export function HomeStack() {
         name="HomeScreen"
         component={HomeScreen}
         options={{
-          title: 'Home Screen RQ',
+          title: 'Home Screen',
         }}
       />
       <Stack.Screen
@@ -20,6 +21,13 @@ export function HomeStack() {
         component={DetailsScreen}
         options={{
           title: 'Details Screen',
+        }}
+      />
+      <Stack.Screen
+        name="SummaryScreen"
+        component={SummaryScreen}
+        options={{
+          title: 'Summary Screen',
         }}
       />
     </Stack.Navigator>

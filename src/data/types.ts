@@ -60,3 +60,8 @@ export interface Hair {
   color: string;
   type: string;
 }
+
+export interface Contact {
+  id: number;
+  name: string;
+}
