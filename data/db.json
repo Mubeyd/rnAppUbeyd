@@ -24,5 +24,31 @@
       "id": 6,
       "name": "Jenny Doe"
     }
+  ],
+  "countries": [
+    {
+      "id": 1,
+      "name": "Turkey"
+    },
+    {
+      "id": 2,
+      "name": "UAE"
+    },
+    {
+      "id": 3,
+      "name": "Mexico"
+    },
+    {
+      "id": 4,
+      "name": "United Kingdom"
+    },
+    {
+      "id": 5,
+      "name": "Germany"
+    },
+    {
+      "id": 6,
+      "name": "USA"
+    }
   ]
 }

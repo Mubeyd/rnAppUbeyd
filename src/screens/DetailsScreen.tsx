@@ -1,10 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
+import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
-import React, { useCallback, useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { Country } from 'src/data/types';
+import { getCountries } from '../api/countryApi';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { setBookBorrowDate, setBookReturnDate } from '../redux/slices/bookBorrowSlice';
+import { setBookBorrowDate, setBookReturnDate, setCountry } from '../redux/slices/bookBorrowSlice';
 
 export default function DetailsScreen() {
   const { navigate } = useNavigation() as any;
@@ -13,8 +17,29 @@ export default function DetailsScreen() {
   const currentContact = useAppSelector(state => state.bookBorrow.currentContact);
   const bookBorrowDate = useAppSelector(state => state.bookBorrow.bookBorrowDate);
   const bookReturnDate = useAppSelector(state => state.bookBorrow.bookReturnDate);
+  const country = useAppSelector(state => state.bookBorrow.country);
 
   const [isDatePickerVisibleBorrow, setDatePickerVisibilityBorrow] = useState(false);
+
+  const {
+    data: countries,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['countries'],
+    queryFn: () => getCountries(),
+  });
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState<string | null>(null);
+  const [items, setItems] = useState<{ label: string; value: string }[]>([]);
+
+  const setCountryC = useCallback(
+    (item: string) => {
+      dispatch(setCountry({ country: item }));
+    },
+    [dispatch],
+  );
 
   const showDatePickerBorrow = useCallback(() => {
     setDatePickerVisibilityBorrow(true);
@@ -51,12 +76,31 @@ export default function DetailsScreen() {
   );
 
   const onPress = useCallback(() => {
-    // goBack();
     navigate('SummaryScreen');
   }, [navigate]);
 
+  const ActivityIndicatorElement = useCallback(() => {
+    return (
+      <View style={styles.activityIndicatorStyle}>
+        <ActivityIndicator color="#009688" size="large" />
+      </View>
+    );
+  }, []);
+
+  useEffect(() => {
+    if (countries) {
+      setItems(countries.map((item: Country) => ({ label: item.name, value: item.name })));
+    }
+  }, [countries]);
+
+  useEffect(() => {
+    if (value) {
+      dispatch(setCountry({ country: value }));
+    }
+  }, [dispatch, setCountryC, value]);
+
   return (
-    <View style={{ display: 'flex', alignItems: 'center' }}>
+    <View style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
       <Text style={styles.textHeader}>{currentContact?.name}</Text>
 
       <View>
@@ -87,6 +131,22 @@ export default function DetailsScreen() {
         />
       </View>
 
+      <View style={{ margin: 4 }}>
+        <Text style={styles.textDes}>Country: {error ? 'error' : country ?? 'not selected'}</Text>
+        <DropDownPicker
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          loading={isLoading}
+          ActivityIndicatorComponent={ActivityIndicatorElement}
+          searchable={true}
+          searchPlaceholder="Search..."
+        />
+      </View>
+
       <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
@@ -95,13 +155,19 @@ export default function DetailsScreen() {
 }
 
 const styles = StyleSheet.create({
+  activityIndicatorStyle: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   button: {
     borderColor: 'blue',
     borderRadius: 4,
     borderWidth: 1,
+    bottom: 4,
     marginTop: 16,
     paddingHorizontal: 16,
     paddingVertical: 8,
+    position: 'absolute',
   },
   buttonText: {
     color: 'blue',

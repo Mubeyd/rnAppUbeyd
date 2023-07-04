@@ -10,6 +10,7 @@ export default function SummaryScreen() {
   const currentContact = useAppSelector(state => state.bookBorrow.currentContact);
   const bookBorrowDate = useAppSelector(state => state.bookBorrow.bookBorrowDate);
   const bookReturnDate = useAppSelector(state => state.bookBorrow.bookReturnDate);
+  const country = useAppSelector(state => state.bookBorrow.country);
 
   const onPress = useCallback(() => {
     goBack();
@@ -33,6 +34,15 @@ export default function SummaryScreen() {
         </Text>
       </View>
 
+      <View style={{ width: 200, height: 2, backgroundColor: 'gray', margin: 4 }} />
+
+      <View>
+        <Text style={styles.textDes}>Country: {country ?? 'not selected'}</Text>
+      </View>
+
+      <TouchableOpacity style={styles.button} onPress={onPress}>
+        <Text style={styles.buttonText}>Teslim al</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={styles.buttonText}>Go Back</Text>
       </TouchableOpacity>
