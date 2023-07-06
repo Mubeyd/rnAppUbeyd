@@ -61,7 +61,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>Please select a Contact:</Text>
+      <Text style={{ color: 'black' }}>Please select a Contact:</Text>
       <View style={styles.listContainer}>
         {isLoading ? <Text>Loading...</Text> : <FlatList data={data} renderItem={renderItem} />}
       </View>

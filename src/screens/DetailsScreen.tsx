@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { Country } from 'src/data/types';
 import { getCountries } from '../api/countryApi';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -98,6 +99,12 @@ export default function DetailsScreen() {
       dispatch(setCountry({ country: value }));
     }
   }, [dispatch, setCountryC, value]);
+  const devices = useCameraDevices();
+  const device = devices.back;
+
+  // if (device == null) {
+  //   return <Text>Loading cam</Text>;
+  // }
 
   return (
     <View style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
@@ -147,6 +154,22 @@ export default function DetailsScreen() {
         />
       </View>
 
+      <View
+        style={{
+          margin: 4,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Text style={styles.textDes}>Camera </Text>
+
+        {!device ? (
+          <Text>Loading cam</Text>
+        ) : (
+          <Camera style={[StyleSheet.absoluteFill, styles.cameraStyle]} device={device} isActive={true} />
+        )}
+      </View>
+
       <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
@@ -171,6 +194,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'blue',
+  },
+  cameraStyle: {
+    height: 200,
+    width: 200,
   },
   textDes: {
     color: '#1b1d19',

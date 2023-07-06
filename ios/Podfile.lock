@@ -500,6 +500,10 @@ PODS:
     - React-Core
     - React-RCTImage
   - SocketRocket (0.6.1)
+  - VisionCamera (2.15.4):
+    - React
+    - React-callinvoker
+    - React-Core
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -572,6 +576,7 @@ DEPENDENCIES:
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -679,6 +684,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  VisionCamera:
+    :path: "../node_modules/react-native-vision-camera"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -739,6 +746,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: dec4645026e7401a0899f2846d864403478ff6a5
   RNScreens: 68fd1060f57dd1023880bf4c05d74784b5392789
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
+  VisionCamera: d3ec8883417a6a4a0e3a6ba37d81d22db7611601
   Yoga: 65286bb6a07edce5e4fe8c90774da977ae8fc009
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
