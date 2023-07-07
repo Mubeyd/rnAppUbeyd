@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { Camera, useCameraDevices } from 'react-native-vision-camera';
+import { useCameraDevices } from 'react-native-vision-camera';
 import { Country } from 'src/data/types';
 import { getCountries } from '../api/countryApi';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -163,11 +163,11 @@ export default function DetailsScreen() {
         }}>
         <Text style={styles.textDes}>Camera </Text>
 
-        {!device ? (
+        {/* {!device ? (
           <Text>Loading cam</Text>
         ) : (
           <Camera style={[StyleSheet.absoluteFill, styles.cameraStyle]} device={device} isActive={true} />
-        )}
+        )} */}
       </View>
 
       <TouchableOpacity style={styles.button} onPress={onPress}>
