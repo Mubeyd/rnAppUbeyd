@@ -9,7 +9,12 @@
     "start": "react-native start",
     "test": "jest",
     "json": "npx json-server --watch data/db.json  --port 3009 --delay 100",
-    "ngrok": "npx ngrok http 3009"
+    "ngrok": "npx ngrok http 3009",
+    "android:build": "cd android && ./gradlew assembleRelease && cd ..",
+    "android:install": "adb install -r android/app/build/outputs/apk/release/app-release.apk",
+    "ios:build": "cd ios && xcodebuild -workspace rnAppUbeyd.xcworkspace -scheme rnAppUbeyd -configuration Release -sdk iphoneos -derivedDataPath build",
+    "xcode": "xed ios",
+    "and:stud": "open -a /Applications/Android\\ Studio.app android/"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^7.3.0",
