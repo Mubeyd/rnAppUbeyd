@@ -51,18 +51,11 @@ export default function HomeScreen() {
     }
   }, [dispatch, contacts]);
 
-  if (error) {
-    return (
-      <View>
-        <Text>Error: {(error as any)?.message}</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <Text style={{ color: 'black' }}>Please select a Contact:</Text>
       <View style={styles.listContainer}>
+        {!!error && <Text>Error: {(error as any)?.message}</Text>}
         {isLoading ? <Text>Loading...</Text> : <FlatList data={data} renderItem={renderItem} />}
       </View>
 
