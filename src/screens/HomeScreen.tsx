@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import React, { useCallback, useEffect } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getContacts } from '../api/contactApi';
 import { Contact } from '../data/types';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -53,6 +54,8 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
+      <Ionicons name={'md-people-sharp'} color="gray" size={28} />
+
       <Text style={{ color: 'black' }}>Please select a Contact:</Text>
       <View style={styles.listContainer}>
         {!!error && <Text>Error: {(error as any)?.message}</Text>}
