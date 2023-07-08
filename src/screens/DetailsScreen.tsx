@@ -2,10 +2,10 @@ import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { Camera, useCameraDevices } from 'react-native-vision-camera';
+import { useCameraDevices } from 'react-native-vision-camera';
 import { Country } from 'src/data/types';
 import { getCountries } from '../api/countryApi';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -19,6 +19,8 @@ export default function DetailsScreen() {
   const bookBorrowDate = useAppSelector(state => state.bookBorrow.bookBorrowDate);
   const bookReturnDate = useAppSelector(state => state.bookBorrow.bookReturnDate);
   const country = useAppSelector(state => state.bookBorrow.country);
+  const bookPhotoFront = useAppSelector(state => state.bookBorrow.bookPhotoFront);
+  const bookPhotoBack = useAppSelector(state => state.bookBorrow.bookPhotoBack);
 
   const [isDatePickerVisibleBorrow, setDatePickerVisibilityBorrow] = useState(false);
 
@@ -150,20 +152,38 @@ export default function DetailsScreen() {
         />
       </View>
 
+      <Text style={styles.textDes}>Images </Text>
       <View
         style={{
           margin: 4,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          flexDirection: 'row',
         }}>
-        <Text style={styles.textDes}>Camera </Text>
+        <TouchableOpacity onPress={() => navigate('CameraScreen', { photoType: 'front' })}>
+          <Image
+            source={bookPhotoFront ? { uri: `file://${bookPhotoFront}` } : require('../assets/add.png')}
+            style={{
+              width: 160,
+              height: 160,
+              resizeMode: 'contain',
+              marginRight: 8,
+            }}
+          />
+        </TouchableOpacity>
 
-        {!device ? (
-          <Text>Loading cam</Text>
-        ) : (
-          <Camera style={[StyleSheet.absoluteFill, styles.cameraStyle]} device={device} isActive={true} />
-        )}
+        <TouchableOpacity onPress={() => navigate('CameraScreen', { photoType: 'back' })}>
+          <Image
+            source={bookPhotoBack ? { uri: `file://${bookPhotoBack}` } : require('../assets/add.png')}
+            style={{
+              width: 160,
+              height: 160,
+              resizeMode: 'contain',
+              marginRight: 8,
+            }}
+          />
+        </TouchableOpacity>
       </View>
 
       <TouchableOpacity style={styles.button} onPress={onPress}>

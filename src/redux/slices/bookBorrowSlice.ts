@@ -7,6 +7,8 @@ interface CounterState {
   bookBorrowDate: any | null;
   bookReturnDate: any | null;
   country: string | null;
+  bookPhotoFront: string | null;
+  bookPhotoBack: string | null;
 }
 
 const initialState: CounterState = {
@@ -15,6 +17,8 @@ const initialState: CounterState = {
   bookBorrowDate: null,
   bookReturnDate: null,
   country: null,
+  bookPhotoFront: null,
+  bookPhotoBack: null,
 };
 
 export const bookBorrowSlice = createSlice({
@@ -36,10 +40,23 @@ export const bookBorrowSlice = createSlice({
     setCountry: (state, action: PayloadAction<{ country: string }>) => {
       state.country = action.payload.country;
     },
+    setBookPhotoFront: (state, action: PayloadAction<{ bookPhotoFront: string }>) => {
+      state.bookPhotoFront = action.payload.bookPhotoFront;
+    },
+    setBookPhotoBack: (state, action: PayloadAction<{ bookPhotoBack: string }>) => {
+      state.bookPhotoBack = action.payload.bookPhotoBack;
+    },
   },
 });
 
-export const { setContacts, setCurrentContact, setBookBorrowDate, setBookReturnDate, setCountry } =
-  bookBorrowSlice.actions;
+export const {
+  setContacts,
+  setCurrentContact,
+  setBookBorrowDate,
+  setBookReturnDate,
+  setCountry,
+  setBookPhotoFront,
+  setBookPhotoBack,
+} = bookBorrowSlice.actions;
 
 export default bookBorrowSlice.reducer;

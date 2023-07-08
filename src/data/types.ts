@@ -61,6 +61,7 @@ export interface Hair {
   type: string;
 }
 
+// Penalty Calculation Types
 export interface Contact {
   id: number;
   name: string;

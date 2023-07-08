@@ -1,10 +1,9 @@
 import { useIsFocused } from '@react-navigation/core';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { PinchGestureHandler, PinchGestureHandlerGestureEvent, TapGestureHandler } from 'react-native-gesture-handler';
-import { useIsForeground } from '../hooks/useIsForeground';
 import Reanimated, {
   Extrapolate,
   interpolate,
@@ -25,6 +24,9 @@ import {
   useCameraDevices,
 } from 'react-native-vision-camera';
 import { CONTENT_SPACING, MAX_ZOOM_FACTOR, SAFE_AREA_PADDING } from '../config/Constants';
+import { useIsForeground } from '../hooks/useIsForeground';
+import { useAppDispatch } from '../redux/hooks';
+import { setBookPhotoBack, setBookPhotoFront } from '../redux/slices/bookBorrowSlice';
 import { CaptureButton } from '../views/CaptureButton';
 import { StatusBarBlurBackground } from '../views/StatusBarBlurBackground';
 
@@ -37,7 +39,10 @@ const SCALE_FULL_ZOOM = 3;
 const BUTTON_SIZE = 40;
 
 export function CameraScreen() {
-  const { navigate } = useNavigation() as any;
+  const { navigate, goBack } = useNavigation() as any;
+  const params = useRoute().params ?? ({} as any);
+  const { photoType } = params as { photoType: 'front' | 'back' };
+  const dispatch = useAppDispatch();
   const camera = useRef<Camera>(null);
   const [isCameraInitialized, setIsCameraInitialized] = useState(false);
   const [hasMicrophonePermission, setHasMicrophonePermission] = useState(false);
@@ -152,12 +157,18 @@ export function CameraScreen() {
   const onMediaCaptured = useCallback(
     (media: PhotoFile | VideoFile, type: 'photo' | 'video') => {
       console.log(`Media captured! ${JSON.stringify(media)}`);
-      navigate('MediaScreen', {
-        path: media.path,
-        type: type,
-      });
+      if (photoType === 'front') {
+        dispatch(setBookPhotoFront({ bookPhotoFront: media.path }));
+      } else {
+        dispatch(setBookPhotoBack({ bookPhotoBack: media.path }));
+      }
+      goBack();
+      // navigate('MediaScreen', {
+      //   path: media.path,
+      //   type: type,
+      // });
     },
-    [navigate],
+    [dispatch, goBack, photoType],
   );
   const onFlipCameraPressed = useCallback(() => {
     setCameraPosition(p => (p === 'back' ? 'front' : 'back'));
