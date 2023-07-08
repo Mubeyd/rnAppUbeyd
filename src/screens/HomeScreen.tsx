@@ -27,6 +27,10 @@ export default function HomeScreen() {
     navigate('DetailsScreen', { id: '1' });
   }, [navigate]);
 
+  const navigateCameraScreen = useCallback(() => {
+    navigate('CameraScreen', { id: '1' });
+  }, [navigate]);
+
   const onPressItem = useCallback(
     ({ item }: { item: Contact }) => {
       dispatch(setCurrentContact(item));
@@ -64,6 +68,9 @@ export default function HomeScreen() {
 
       <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={styles.buttonText}>Go to Details</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={navigateCameraScreen}>
+        <Text style={styles.buttonText}>Go to Camera Screen</Text>
       </TouchableOpacity>
       <View style={{ height: 30 }} />
     </View>

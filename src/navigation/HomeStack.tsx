@@ -1,8 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { Camera, CameraPermissionStatus } from 'react-native-vision-camera';
+import { CameraScreen } from '../screens/CameraScreen';
 import DetailsScreen from '../screens/DetailsScreen';
 import HomeScreen from '../screens/HomeScreen';
+import { MediaScreen } from '../screens/MediaScreen';
 import { PermissionsScreen } from '../screens/PermissionsScreen';
 import SummaryScreen from '../screens/SummaryScreen';
 
@@ -51,6 +53,20 @@ export function HomeStack() {
         component={PermissionsScreen}
         options={{
           title: 'Permissions Screen',
+        }}
+      />
+      <Stack.Screen
+        name="CameraScreen"
+        component={CameraScreen}
+        options={{
+          title: 'Camera Screen',
+        }}
+      />
+      <Stack.Screen
+        name="MediaScreen"
+        component={MediaScreen}
+        options={{
+          title: 'Media Screen',
         }}
       />
     </Stack.Navigator>
