@@ -1,12 +1,12 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { Camera, CameraPermissionStatus } from 'react-native-vision-camera';
-import { CameraScreen } from '../screens/CameraScreen';
-import DetailsScreen from '../screens/DetailsScreen';
-import HomeScreen from '../screens/HomeScreen';
-import { MediaScreen } from '../screens/MediaScreen';
-import { PermissionsScreen } from '../screens/PermissionsScreen';
-import SummaryScreen from '../screens/SummaryScreen';
+import { CameraScreen } from '../screens/penaltyCalculator/CameraScreen';
+import ContactsScreen from '../screens/penaltyCalculator/ContactsScreen';
+import { MediaScreen } from '../screens/penaltyCalculator/MediaScreen';
+import PCDetailsScreen from '../screens/penaltyCalculator/PCDetailsScreen';
+import PCSummaryScreen from '../screens/penaltyCalculator/PCSummaryScreen';
+import { PermissionsScreen } from '../screens/penaltyCalculator/PermissionsScreen';
 
 const Stack = createStackNavigator();
 
@@ -28,24 +28,24 @@ export function HomeStack() {
   return (
     <Stack.Navigator initialRouteName={showPermissionsPage ? 'PermissionsScreen' : 'HomeScreen'}>
       <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
+        name="ContactsScreen"
+        component={ContactsScreen}
         options={{
-          title: 'Home Screen',
+          title: 'Contacts Screen',
         }}
       />
       <Stack.Screen
-        name="DetailsScreen"
-        component={DetailsScreen}
+        name="PCDetailsScreen"
+        component={PCDetailsScreen}
         options={{
-          title: 'Details Screen',
+          title: 'PC Details Screen',
         }}
       />
       <Stack.Screen
-        name="SummaryScreen"
-        component={SummaryScreen}
+        name="PCSummaryScreen"
+        component={PCSummaryScreen}
         options={{
-          title: 'Summary Screen',
+          title: 'PC Summary Screen',
         }}
       />
       <Stack.Screen

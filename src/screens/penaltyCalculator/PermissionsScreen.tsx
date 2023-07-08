@@ -7,7 +7,7 @@ import { Camera, CameraPermissionStatus } from 'react-native-vision-camera';
 // import type { Routes } from './Routes';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const BANNER_IMAGE = require('../components/logo.gif') as ImageRequireSource;
+const BANNER_IMAGE = require('../../components/logo.gif') as ImageRequireSource;
 
 // type Props = NativeStackScreenProps<Routes, 'PermissionsScreen'>;
 export function PermissionsScreen(): React.ReactElement {
@@ -38,7 +38,7 @@ export function PermissionsScreen(): React.ReactElement {
 
   useEffect(() => {
     if (cameraPermissionStatus === 'authorized' && microphonePermissionStatus === 'authorized') {
-      replace('HomeScreen');
+      replace('ContactsScreen');
     }
   }, [cameraPermissionStatus, microphonePermissionStatus, replace]);
 

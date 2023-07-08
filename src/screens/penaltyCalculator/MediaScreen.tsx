@@ -17,9 +17,9 @@ import {
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import Video, { LoadError, OnLoadData } from 'react-native-video';
-import { SAFE_AREA_PADDING } from '../config/Constants';
-import { useIsForeground } from '../hooks/useIsForeground';
-import { StatusBarBlurBackground } from '../views/StatusBarBlurBackground';
+import { SAFE_AREA_PADDING } from '../../config/Constants';
+import { useIsForeground } from '../../hooks/useIsForeground';
+import { StatusBarBlurBackground } from '../../views/StatusBarBlurBackground';
 
 const requestSavePermission = async (): Promise<boolean> => {
   if (Platform.OS !== 'android') {

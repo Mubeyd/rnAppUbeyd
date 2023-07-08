@@ -7,11 +7,11 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useCameraDevices } from 'react-native-vision-camera';
 import { Country } from 'src/data/types';
-import { getCountries } from '../api/countryApi';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { setBookBorrowDate, setBookReturnDate, setCountry } from '../redux/slices/bookBorrowSlice';
+import { getCountries } from '../../api/countryApi';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { setBookBorrowDate, setBookReturnDate, setCountry } from '../../redux/slices/bookBorrowSlice';
 
-export default function DetailsScreen() {
+export default function PCDetailsScreen() {
   const { navigate } = useNavigation() as any;
   const dispatch = useAppDispatch();
 
@@ -79,7 +79,7 @@ export default function DetailsScreen() {
   );
 
   const onPress = useCallback(() => {
-    navigate('SummaryScreen');
+    navigate('PCSummaryScreen');
   }, [navigate]);
 
   const ActivityIndicatorElement = useCallback(() => {
@@ -163,7 +163,7 @@ export default function DetailsScreen() {
         }}>
         <TouchableOpacity onPress={() => navigate('CameraScreen', { photoType: 'front' })}>
           <Image
-            source={bookPhotoFront ? { uri: `file://${bookPhotoFront}` } : require('../assets/add.png')}
+            source={bookPhotoFront ? { uri: `file://${bookPhotoFront}` } : require('../../assets/add.png')}
             style={{
               width: 160,
               height: 160,
@@ -175,7 +175,7 @@ export default function DetailsScreen() {
 
         <TouchableOpacity onPress={() => navigate('CameraScreen', { photoType: 'back' })}>
           <Image
-            source={bookPhotoBack ? { uri: `file://${bookPhotoBack}` } : require('../assets/add.png')}
+            source={bookPhotoBack ? { uri: `file://${bookPhotoBack}` } : require('../../assets/add.png')}
             style={{
               width: 160,
               height: 160,
