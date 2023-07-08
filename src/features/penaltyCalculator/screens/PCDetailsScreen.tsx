@@ -163,7 +163,7 @@ export default function PCDetailsScreen() {
         }}>
         <TouchableOpacity onPress={() => navigate('CameraScreen', { photoType: 'front' })}>
           <Image
-            source={bookPhotoFront ? { uri: `file://${bookPhotoFront}` } : require('../../assets/add.png')}
+            source={bookPhotoFront ? { uri: `file://${bookPhotoFront}` } : require('../../../assets/add.png')}
             style={{
               width: 160,
               height: 160,
@@ -175,7 +175,7 @@ export default function PCDetailsScreen() {
 
         <TouchableOpacity onPress={() => navigate('CameraScreen', { photoType: 'back' })}>
           <Image
-            source={bookPhotoBack ? { uri: `file://${bookPhotoBack}` } : require('../../assets/add.png')}
+            source={bookPhotoBack ? { uri: `file://${bookPhotoBack}` } : require('../../../assets/add.png')}
             style={{
               width: 160,
               height: 160,
