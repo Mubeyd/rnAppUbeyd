@@ -23,12 +23,12 @@ import {
   sortFormats,
   useCameraDevices,
 } from 'react-native-vision-camera';
-import { CONTENT_SPACING, MAX_ZOOM_FACTOR, SAFE_AREA_PADDING } from '../../config/Constants';
-import { useIsForeground } from '../../hooks/useIsForeground';
-import { useAppDispatch } from '../../redux/hooks';
-import { setBookPhotoBack, setBookPhotoFront } from '../../redux/slices/bookBorrowSlice';
-import { CaptureButton } from '../../views/CaptureButton';
-import { StatusBarBlurBackground } from '../../views/StatusBarBlurBackground';
+import { CONTENT_SPACING, MAX_ZOOM_FACTOR, SAFE_AREA_PADDING } from '../../../config/Constants';
+import { useIsForeground } from '../../../hooks/useIsForeground';
+import { useAppDispatch } from '../../../redux/hooks';
+import { CaptureButton } from '../../../views/CaptureButton';
+import { StatusBarBlurBackground } from '../../../views/StatusBarBlurBackground';
+import { setBookPhotoBack, setBookPhotoFront } from '../state/bookBorrowSlice';
 
 const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera);
 Reanimated.addWhitelistedNativeProps({

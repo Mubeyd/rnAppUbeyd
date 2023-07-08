@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useCallback, useEffect } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { getContacts } from '../../api/contactApi';
-import { Contact } from '../../data/types';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { setContacts, setCurrentContact } from '../../redux/slices/bookBorrowSlice';
+import { Contact } from '../../../data/types';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { getContacts } from '../api/contactApi';
+import { setContacts, setCurrentContact } from '../state/bookBorrowSlice';
 
 export default function ContactsScreen() {
   const { navigate } = useNavigation() as any;

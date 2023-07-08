@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Contact } from '../../data/types';
+import { Contact } from '../../../data/types';
 
 interface CounterState {
   contacts: Contact[];

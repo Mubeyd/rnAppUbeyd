@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import React, { useCallback } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppSelector } from '../../../redux/hooks';
 
 export default function PCSummaryScreen() {
   const { goBack } = useNavigation() as any;

@@ -1,12 +1,12 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { Camera, CameraPermissionStatus } from 'react-native-vision-camera';
-import { CameraScreen } from '../screens/penaltyCalculator/CameraScreen';
-import ContactsScreen from '../screens/penaltyCalculator/ContactsScreen';
-import { MediaScreen } from '../screens/penaltyCalculator/MediaScreen';
-import PCDetailsScreen from '../screens/penaltyCalculator/PCDetailsScreen';
-import PCSummaryScreen from '../screens/penaltyCalculator/PCSummaryScreen';
-import { PermissionsScreen } from '../screens/penaltyCalculator/PermissionsScreen';
+import { CameraScreen } from '../features/penaltyCalculator/screens/CameraScreen';
+import ContactsScreen from '../features/penaltyCalculator/screens/ContactsScreen';
+import { MediaScreen } from '../features/penaltyCalculator/screens/MediaScreen';
+import PCDetailsScreen from '../features/penaltyCalculator/screens/PCDetailsScreen';
+import PCSummaryScreen from '../features/penaltyCalculator/screens/PCSummaryScreen';
+import { PermissionsScreen } from '../features/penaltyCalculator/screens/PermissionsScreen';
 
 const Stack = createStackNavigator();
 

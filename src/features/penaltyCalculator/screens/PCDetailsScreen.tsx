@@ -7,9 +7,9 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useCameraDevices } from 'react-native-vision-camera';
 import { Country } from 'src/data/types';
-import { getCountries } from '../../api/countryApi';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { setBookBorrowDate, setBookReturnDate, setCountry } from '../../redux/slices/bookBorrowSlice';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { getCountries } from '../api/countryApi';
+import { setBookBorrowDate, setBookReturnDate, setCountry } from '../state/bookBorrowSlice';
 
 export default function PCDetailsScreen() {
   const { navigate } = useNavigation() as any;

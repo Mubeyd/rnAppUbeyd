@@ -1,5 +1,5 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
-import bookBorrowReducer from './slices/bookBorrowSlice';
+import bookBorrowReducer from '../features/penaltyCalculator/state/bookBorrowSlice';
 import counterReducer from './slices/counterSlice';
 import userReducer from './slices/userSlice';
 
