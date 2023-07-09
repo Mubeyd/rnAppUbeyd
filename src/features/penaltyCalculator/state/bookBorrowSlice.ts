@@ -21,6 +21,7 @@ export interface Country {
   flag: string;
   weekend: number;
   holiDays: string[];
+  penaltyPerDay: number;
 }
 
 interface CounterState {

@@ -1,10 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useAppSelector } from '../../../redux/hooks';
 import { calculateWorkdays } from '../helpers/calculateWorkdays';
-import { AllowedBorrowingDays, PenaltyPerDay } from '../state/bookBorrowSlice';
+import { AllowedBorrowingDays } from '../state/bookBorrowSlice';
 
 export default function PCSummaryScreen() {
   const { goBack, navigate } = useNavigation() as any;
@@ -14,16 +14,23 @@ export default function PCSummaryScreen() {
   const bookReturnDate = useAppSelector(state => state.bookBorrow.bookReturnDate);
   const country = useAppSelector(state => state.bookBorrow.country);
 
-  const totalWorkDays = calculateWorkdays({
-    startDate: moment(bookBorrowDate),
-    endDate: moment(bookReturnDate),
-    weekendsType: country?.weekend ?? 1,
-    holiDays: country?.holiDays ?? [],
-  });
+  const totalWorkDays = useMemo(
+    () =>
+      calculateWorkdays({
+        startDate: moment(bookBorrowDate),
+        endDate: moment(bookReturnDate),
+        weekendsType: country?.weekend ?? 1,
+        holiDays: country?.holiDays ?? [],
+      }),
+    [bookBorrowDate, bookReturnDate, country?.holiDays, country?.weekend],
+  );
 
-  const delayedDays = totalWorkDays - AllowedBorrowingDays;
+  const delayedDays = useMemo(() => totalWorkDays - AllowedBorrowingDays, [totalWorkDays]);
 
-  const totalPenalty = delayedDays * PenaltyPerDay;
+  const totalPenalty = useMemo(
+    () => delayedDays * (country?.penaltyPerDay ?? 0),
+    [country?.penaltyPerDay, delayedDays],
+  );
 
   const onReceive = useCallback(() => {
     navigate('ContactsScreen');
@@ -67,13 +74,14 @@ export default function PCSummaryScreen() {
 
       <View>
         <Text style={styles.textDes}>
-          Penalty per work day for delaying: {PenaltyPerDay ?? 'not selected'} {country?.currencySymbol}
+          Penalty per work day for delaying: {(country?.penaltyPerDay ?? 0).toFixed(2) ?? 'not selected'}{' '}
+          {country?.currencySymbol}
         </Text>
       </View>
 
       <View>
         <Text style={styles.textDes}>
-          Total Penalty : {totalPenalty ?? 'not selected'} {country?.currencySymbol}
+          Total Penalty : {totalPenalty.toFixed(2) ?? 'not selected'} {country?.currencySymbol}
         </Text>
       </View>
 
