@@ -132,6 +132,7 @@ export default function PCDetailsScreen() {
           onConfirm={handleConfirmBorrow}
           onCancel={hideDatePickerBorrow}
           date={bookBorrowDate ?? new Date()}
+          maximumDate={new Date()}
         />
       </View>
 
@@ -148,6 +149,8 @@ export default function PCDetailsScreen() {
           onConfirm={handleConfirmReturn}
           onCancel={hideDatePickerReturn}
           date={bookReturnDate ?? new Date()}
+          minimumDate={bookBorrowDate ?? new Date()}
+          maximumDate={new Date()}
         />
       </View>
 
