@@ -1,0 +1,90 @@
+{
+  "contacts": [
+    {
+      "id": 1,
+      "name": "John Doe"
+    },
+    {
+      "id": 2,
+      "name": "Mark Smith"
+    },
+    {
+      "id": 3,
+      "name": "Isabella Johnson"
+    },
+    {
+      "id": 4,
+      "name": "Fahrettin Demir"
+    },
+    {
+      "id": 5,
+      "name": "Mehmet Fatih"
+    },
+    {
+      "id": 6,
+      "name": "Pablo Hernandez"
+    }
+  ],
+  "countries": [
+    {
+      "id": 1,
+      "name": "Turkey",
+      "currencySymbol": "₺",
+      "currencyName": "Turkish Lira",
+      "flag": "https://www.countryflags.io/tr/flat/64.png",
+      "weekend": 1,
+      "holiDays": ["01/01", "04/23", "05/01", "05/19", "07/12", "08/30", "10/29", "12/31"],
+      "penaltyPerDay": 5
+    },
+    {
+      "id": 2,
+      "name": "United Arab Emirates",
+      "currencySymbol": "د.إ",
+      "currencyName": "UAE Dirham",
+      "flag": "https://www.countryflags.io/ae/flat/64.png",
+      "weekend": 2,
+      "holiDays": ["01/01", "04/23", "05/01", "05/19", "07/12", "08/30", "10/29", "12/31"],
+      "penaltyPerDay": 7
+    },
+    {
+      "id": 3,
+      "name": "Mexico",
+      "currencySymbol": "$",
+      "currencyName": "Mexican Peso",
+      "flag": "https://www.countryflags.io/mx/flat/64.png",
+      "weekend": 1,
+      "holiDays": ["01/01", "04/23", "05/01", "05/19", "07/12", "08/30", "10/29", "12/31"],
+      "penaltyPerDay": 4
+    },
+    {
+      "id": 4,
+      "name": "United Kingdom",
+      "currencySymbol": "£",
+      "currencyName": "Pound Sterling",
+      "flag": "https://www.countryflags.io/gb/flat/64.png",
+      "weekend": 1,
+      "holiDays": ["01/01", "04/23", "05/01", "05/19", "07/12", "08/30", "10/29", "12/31"],
+      "penaltyPerDay": 6
+    },
+    {
+      "id": 5,
+      "name": "Germany",
+      "currencySymbol": "€",
+      "currencyName": "Euro",
+      "flag": "https://www.countryflags.io/de/flat/64.png",
+      "weekend": 1,
+      "holiDays": ["01/01", "04/23", "05/01", "05/19", "07/12", "08/30", "10/29", "12/31"],
+      "penaltyPerDay": 11
+    },
+    {
+      "id": 6,
+      "name": "United States of America",
+      "currencySymbol": "$",
+      "currencyName": "US Dollar",
+      "flag": "https://www.countryflags.io/us/flat/64.png",
+      "weekend": 1,
+      "holiDays": ["01/01", "04/23", "05/01", "05/19", "07/12", "08/30", "10/29", "12/31"],
+      "penaltyPerDay": 2
+    }
+  ]
+}

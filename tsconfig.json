@@ -37,7 +37,7 @@
         "src/navigation/*"
       ],
       "@screens/*": [
-        "src/screens/*"
+        "src/features/*"
       ],
       "@services/*": [
         "src/services/*"

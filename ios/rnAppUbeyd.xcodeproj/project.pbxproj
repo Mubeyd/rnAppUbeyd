@@ -12,6 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		187103362A58243A0029215E /* libreact-native-cameraroll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 187103352A58243A0029215E /* libreact-native-cameraroll.a */; };
 		7699B88040F8A987B510C191 /* libPods-rnAppUbeyd-rnAppUbeydTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-rnAppUbeyd-rnAppUbeydTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -23,6 +24,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = rnAppUbeyd;
+		};
+		187103312A581E920029215E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1871032D2A581E920029215E /* RNCCameraRoll.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
+			remoteInfo = RNCCameraRoll;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -36,6 +44,8 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = rnAppUbeyd/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rnAppUbeyd/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = rnAppUbeyd/main.m; sourceTree = "<group>"; };
+		1871032D2A581E920029215E /* RNCCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCCameraRoll.xcodeproj; path = "../node_modules/@react-native-camera-roll/camera-roll/ios/RNCCameraRoll.xcodeproj"; sourceTree = "<group>"; };
+		187103352A58243A0029215E /* libreact-native-cameraroll.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-cameraroll.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-rnAppUbeyd-rnAppUbeydTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rnAppUbeyd-rnAppUbeydTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-rnAppUbeyd.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rnAppUbeyd.debug.xcconfig"; path = "Target Support Files/Pods-rnAppUbeyd/Pods-rnAppUbeyd.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-rnAppUbeyd.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rnAppUbeyd.release.xcconfig"; path = "Target Support Files/Pods-rnAppUbeyd/Pods-rnAppUbeyd.release.xcconfig"; sourceTree = "<group>"; };
@@ -59,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				187103362A58243A0029215E /* libreact-native-cameraroll.a in Frameworks */,
 				0C80B921A6F3F58F76C31292 /* libPods-rnAppUbeyd.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,6 +97,7 @@
 		13B07FAE1A68108700A75B9A /* rnAppUbeyd */ = {
 			isa = PBXGroup;
 			children = (
+				187AAEC82A57BE9C009E0855 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -96,9 +108,25 @@
 			name = rnAppUbeyd;
 			sourceTree = "<group>";
 		};
+		1871032E2A581E920029215E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				187103322A581E920029215E /* libRNCCameraRoll.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		187AAEC82A57BE9C009E0855 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				187103352A58243A0029215E /* libreact-native-cameraroll.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-rnAppUbeyd.a */,
 				19F6CBCC0A4E27FBF8BF4A61 /* libPods-rnAppUbeyd-rnAppUbeydTests.a */,
@@ -109,6 +137,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				1871032D2A581E920029215E /* RNCCameraRoll.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -222,6 +251,12 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1871032E2A581E920029215E /* Products */;
+					ProjectRef = 1871032D2A581E920029215E /* RNCCameraRoll.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* rnAppUbeyd */,
@@ -229,6 +264,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		187103322A581E920029215E /* libRNCCameraRoll.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCCameraRoll.a;
+			remoteRef = 187103312A581E920029215E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
