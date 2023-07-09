@@ -8,9 +8,9 @@ const Stack = createStackNavigator();
 
 export function HomeStack() {
   return (
-    <Stack.Navigator initialRouteName="HomeScreen">
+    <Stack.Navigator initialRouteName="UsersListScreen">
       <Stack.Screen
-        name="HomeScreen"
+        name="UsersListScreen"
         component={UsersListScreen}
         options={{
           title: 'Users list screen',
