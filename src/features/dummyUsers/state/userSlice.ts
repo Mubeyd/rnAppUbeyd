@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from '../../data/types';
+import { User } from '../data/types';
 
 interface CounterState {
   users: User[];

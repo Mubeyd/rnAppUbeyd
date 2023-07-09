@@ -2,8 +2,8 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../redux/hooks';
-import { setNewUser } from '../redux/slices/userSlice';
+import { useAppSelector } from '../../../redux/hooks';
+import { setNewUser } from '../state/userSlice';
 
 export default function NewUserScreen() {
   const { goBack } = useNavigation() as any;

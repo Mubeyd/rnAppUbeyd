@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useAppSelector } from '../redux/hooks';
+import { useAppSelector } from '../../../redux/hooks';
 
-export default function DetailsScreen() {
+export default function UserDetailsScreen() {
   const { goBack } = useNavigation() as any;
 
   const currentUser = useAppSelector(state => state.user.currentUser);

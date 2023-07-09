@@ -1,8 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import DetailsScreen from '../screens/DetailsScreen';
-import HomeScreen from '../screens/HomeScreen';
-import NewUserScreen from '../screens/NewUserScreen';
+import NewUserScreen from '../features/dummyUsers/screens/NewUserScreen';
+import UserDetailsScreen from '../features/dummyUsers/screens/UserDetailsScreen';
+import UsersListScreen from '../features/dummyUsers/screens/UsersListScreen';
 
 const Stack = createStackNavigator();
 
@@ -11,16 +11,16 @@ export function HomeStack() {
     <Stack.Navigator initialRouteName="HomeScreen">
       <Stack.Screen
         name="HomeScreen"
-        component={HomeScreen}
+        component={UsersListScreen}
         options={{
-          title: 'Home Screen RQ',
+          title: 'Users list screen',
         }}
       />
       <Stack.Screen
         name="DetailsScreen"
-        component={DetailsScreen}
+        component={UserDetailsScreen}
         options={{
-          title: 'Details Screen',
+          title: 'User Details Screen',
         }}
       />
       <Stack.Screen

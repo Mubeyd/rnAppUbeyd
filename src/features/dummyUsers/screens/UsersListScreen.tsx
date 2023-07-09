@@ -2,12 +2,12 @@ import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import React, { useCallback, useEffect } from 'react';
 import { FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { getUsers } from '../api/userApi';
 import { User } from '../data/types';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { removeUser, setCurrentUser, setUsers } from '../redux/slices/userSlice';
+import { removeUser, setCurrentUser, setUsers } from '../state/userSlice';
 
-export default function HomeScreen() {
+export default function UsersListScreen() {
   const { navigate } = useNavigation() as any;
   const dispatch = useAppDispatch();
 

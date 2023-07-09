@@ -1,5 +1,5 @@
-import { User } from 'src/data/types';
-import axiosInstance from './axiosInstance';
+import axiosInstance from '../../../api/axiosInstance';
+import { User } from '../data/types';
 
 export async function getUsers(): Promise<User[]> {
   const response = await axiosInstance.get('/users');
