@@ -1,12 +1,34 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Contact } from '../../../data/types';
+
+export const AllowedBorrowingDays = 10;
+export const PenaltyPerDay = 5;
+
+export enum WeekendsType {
+  Type1 = 1, // Saturday and Sunday
+  Type2 = 2, // Friday and Saturday
+}
+
+export interface Contact {
+  id: number;
+  name: string;
+}
+
+export interface Country {
+  id: number;
+  name: string;
+  currencySymbol: string;
+  currencyName: string;
+  flag: string;
+  weekend: number;
+  holiDays: string[];
+}
 
 interface CounterState {
   contacts: Contact[];
   currentContact: Contact | null;
   bookBorrowDate: any | null;
   bookReturnDate: any | null;
-  country: string | null;
+  country: Country | null;
   bookPhotoFront: string | null;
   bookPhotoBack: string | null;
 }
@@ -37,7 +59,7 @@ export const bookBorrowSlice = createSlice({
     setBookReturnDate: (state, action: PayloadAction<{ date: any }>) => {
       state.bookReturnDate = action.payload.date;
     },
-    setCountry: (state, action: PayloadAction<{ country: string }>) => {
+    setCountry: (state, action: PayloadAction<{ country: Country }>) => {
       state.country = action.payload.country;
     },
     setBookPhotoFront: (state, action: PayloadAction<{ bookPhotoFront: string }>) => {

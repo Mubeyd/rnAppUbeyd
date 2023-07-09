@@ -3,14 +3,31 @@ import moment from 'moment';
 import React, { useCallback } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useAppSelector } from '../../../redux/hooks';
+import { calculateWorkdays } from '../helpers/calculateWorkdays';
+import { AllowedBorrowingDays, PenaltyPerDay } from '../state/bookBorrowSlice';
 
 export default function PCSummaryScreen() {
-  const { goBack } = useNavigation() as any;
+  const { goBack, navigate } = useNavigation() as any;
 
   const currentContact = useAppSelector(state => state.bookBorrow.currentContact);
   const bookBorrowDate = useAppSelector(state => state.bookBorrow.bookBorrowDate);
   const bookReturnDate = useAppSelector(state => state.bookBorrow.bookReturnDate);
   const country = useAppSelector(state => state.bookBorrow.country);
+
+  const totalWorkDays = calculateWorkdays({
+    startDate: moment(bookBorrowDate),
+    endDate: moment(bookReturnDate),
+    weekendsType: country?.weekend ?? 1,
+    holiDays: country?.holiDays ?? [],
+  });
+
+  const delayedDays = totalWorkDays - AllowedBorrowingDays;
+
+  const totalPenalty = delayedDays * PenaltyPerDay;
+
+  const onReceive = useCallback(() => {
+    navigate('ContactsScreen');
+  }, [navigate]);
 
   const onPress = useCallback(() => {
     goBack();
@@ -22,7 +39,7 @@ export default function PCSummaryScreen() {
 
       <View>
         <Text style={styles.textDes}>
-          Borrow Date: {bookBorrowDate ? moment(bookBorrowDate).format('DD/MM/yyyy') : ''}
+          Borrow Date: {bookBorrowDate ? moment(bookBorrowDate).format('DD / MM / yyyy') : ''}
         </Text>
       </View>
 
@@ -30,18 +47,38 @@ export default function PCSummaryScreen() {
 
       <View>
         <Text style={styles.textDes}>
-          Return Date: {bookReturnDate ? moment(bookReturnDate).format('DD/MM/yyyy') : ''}
+          Return Date: {bookReturnDate ? moment(bookReturnDate).format('DD / MM / yyyy') : ''}
         </Text>
       </View>
 
       <View style={{ width: 200, height: 2, backgroundColor: 'gray', margin: 4 }} />
 
       <View>
-        <Text style={styles.textDes}>Country: {country ?? 'not selected'}</Text>
+        <Text style={styles.textDes}>Country: {country?.name ?? 'not selected'}</Text>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={onPress}>
-        <Text style={styles.buttonText}>Teslim al</Text>
+      <View>
+        <Text style={styles.textDes}> Allowed borrowing days: {AllowedBorrowingDays ?? 'not selected'}</Text>
+      </View>
+
+      <View>
+        <Text style={styles.textDes}>Delayed days: {delayedDays ?? 'not selected'}</Text>
+      </View>
+
+      <View>
+        <Text style={styles.textDes}>
+          Penalty per work day for delaying: {PenaltyPerDay ?? 'not selected'} {country?.currencySymbol}
+        </Text>
+      </View>
+
+      <View>
+        <Text style={styles.textDes}>
+          Total Penalty : {totalPenalty ?? 'not selected'} {country?.currencySymbol}
+        </Text>
+      </View>
+
+      <TouchableOpacity style={styles.button} onPress={onReceive}>
+        <Text style={styles.buttonText}>Receive</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={styles.buttonText}>Go Back</Text>
@@ -66,6 +103,7 @@ const styles = StyleSheet.create({
     color: '#1b1d19',
     fontSize: 16,
     fontWeight: '600',
+    margin: 6,
     textAlign: 'center',
   },
   textHeader: {

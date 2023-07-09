@@ -60,14 +60,3 @@ export interface Hair {
   color: string;
   type: string;
 }
-
-// Penalty Calculation Types
-export interface Contact {
-  id: number;
-  name: string;
-}
-
-export interface Country {
-  id: number;
-  name: string;
-}

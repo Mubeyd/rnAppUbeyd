@@ -2,14 +2,12 @@ import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { useCameraDevices } from 'react-native-vision-camera';
-import { Country } from 'src/data/types';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { getCountries } from '../api/countryApi';
-import { setBookBorrowDate, setBookReturnDate, setCountry } from '../state/bookBorrowSlice';
+import { Country, setBookBorrowDate, setBookReturnDate, setCountry } from '../state/bookBorrowSlice';
 
 export default function PCDetailsScreen() {
   const { navigate } = useNavigation() as any;
@@ -36,13 +34,6 @@ export default function PCDetailsScreen() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<string | null>(null);
   const [items, setItems] = useState<{ label: string; value: string }[]>([]);
-
-  const setCountryC = useCallback(
-    (item: string) => {
-      dispatch(setCountry({ country: item }));
-    },
-    [dispatch],
-  );
 
   const showDatePickerBorrow = useCallback(() => {
     setDatePickerVisibilityBorrow(true);
@@ -78,9 +69,30 @@ export default function PCDetailsScreen() {
     [dispatch, hideDatePickerReturn],
   );
 
-  const onPress = useCallback(() => {
+  const onSubmit = useCallback(() => {
+    if (!bookBorrowDate) {
+      Alert.alert('Please select a borrowing date');
+      return;
+    }
+    if (!bookReturnDate) {
+      Alert.alert('Please select a returning date');
+      return;
+    }
+    if (!country) {
+      Alert.alert('Please select a country');
+      return;
+    }
+    if (!bookPhotoFront) {
+      Alert.alert('Please take a photo of the front cover');
+      return;
+    }
+    if (!bookPhotoBack) {
+      Alert.alert('Please take a photo of the back cover');
+      return;
+    }
+
     navigate('PCSummaryScreen');
-  }, [navigate]);
+  }, [bookBorrowDate, bookPhotoBack, bookPhotoFront, bookReturnDate, country, navigate]);
 
   const ActivityIndicatorElement = useCallback(() => {
     return (
@@ -98,11 +110,12 @@ export default function PCDetailsScreen() {
 
   useEffect(() => {
     if (value) {
-      dispatch(setCountry({ country: value }));
+      const myCountry = countries?.find(x => x.name === value);
+      if (myCountry) {
+        dispatch(setCountry({ country: myCountry }));
+      }
     }
-  }, [dispatch, setCountryC, value]);
-  const devices = useCameraDevices();
-  const device = devices.back;
+  }, [countries, dispatch, value]);
 
   return (
     <View style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
@@ -111,13 +124,14 @@ export default function PCDetailsScreen() {
       <View>
         <Button title="Select a borrowing date" onPress={showDatePickerBorrow} />
         <Text style={styles.textDes}>
-          Borrow Date: {bookBorrowDate ? moment(bookBorrowDate).format('DD/MM/yyyy') : ''}
+          Borrow Date: {bookBorrowDate ? moment(bookBorrowDate).format('DD / MM / yyyy') : ''}
         </Text>
         <DateTimePickerModal
           isVisible={isDatePickerVisibleBorrow}
           mode="date"
           onConfirm={handleConfirmBorrow}
           onCancel={hideDatePickerBorrow}
+          date={bookBorrowDate ?? new Date()}
         />
       </View>
 
@@ -126,18 +140,19 @@ export default function PCDetailsScreen() {
       <View>
         <Button title="Select a returning date" onPress={showDatePickerReturn} />
         <Text style={styles.textDes}>
-          Return Date: {bookReturnDate ? moment(bookReturnDate).format('DD/MM/yyyy') : ''}
+          Return Date: {bookReturnDate ? moment(bookReturnDate).format('DD / MM / yyyy') : ''}
         </Text>
         <DateTimePickerModal
           isVisible={isDatePickerVisibleReturn}
           mode="date"
           onConfirm={handleConfirmReturn}
           onCancel={hideDatePickerReturn}
+          date={bookReturnDate ?? new Date()}
         />
       </View>
 
       <View style={{ margin: 4 }}>
-        <Text style={styles.textDes}>Country: {error ? 'error' : country ?? 'not selected'}</Text>
+        <Text style={styles.textDes}>Country: {error ? 'error' : country?.name ?? 'not selected'}</Text>
         <DropDownPicker
           open={open}
           value={value}
@@ -186,7 +201,7 @@ export default function PCDetailsScreen() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={onPress}>
+      <TouchableOpacity style={styles.button} onPress={onSubmit}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
     </View>
