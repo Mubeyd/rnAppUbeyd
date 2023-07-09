@@ -1,7 +1,7 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 import bookBorrowReducer from '../features/penaltyCalculator/state/bookBorrowSlice';
+import userReducer from '../features/dummyUsers/state/userSlice';
 import counterReducer from './slices/counterSlice';
-import userReducer from './slices/userSlice';
 
 export const store = configureStore({
   reducer: {

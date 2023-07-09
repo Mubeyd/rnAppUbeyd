@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from '../../data/types';
+import { User } from '../data/types';
 
 interface CounterState {
   users: User[];
@@ -21,9 +21,15 @@ export const userSlice = createSlice({
     setCurrentUser: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
     },
+    setNewUser: (state, action: PayloadAction<{ newUser: User }>) => {
+      state.users = [action.payload.newUser, ...state.users];
+    },
+    removeUser: (state, action: PayloadAction<{ id: number }>) => {
+      state.users = state.users.filter(user => user.id !== action.payload.id);
+    },
   },
 });
 
-export const { setUsers, setCurrentUser } = userSlice.actions;
+export const { setUsers, setCurrentUser, setNewUser, removeUser } = userSlice.actions;
 
 export default userSlice.reducer;

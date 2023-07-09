@@ -1,6 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { Camera, CameraPermissionStatus } from 'react-native-vision-camera';
+import NewUserScreen from '../features/dummyUsers/screens/NewUserScreen';
+import UserDetailsScreen from '../features/dummyUsers/screens/UserDetailsScreen';
+import UsersListScreen from '../features/dummyUsers/screens/UsersListScreen';
 import { CameraScreen } from '../features/penaltyCalculator/screens/CameraScreen';
 import ContactsScreen from '../features/penaltyCalculator/screens/ContactsScreen';
 import { MediaScreen } from '../features/penaltyCalculator/screens/MediaScreen';
@@ -67,6 +70,27 @@ export function HomeStack() {
         component={MediaScreen}
         options={{
           title: 'Media Screen',
+        }}
+      />
+      <Stack.Screen
+        name="UsersListScreen"
+        component={UsersListScreen}
+        options={{
+          title: 'Users list screen',
+        }}
+      />
+      <Stack.Screen
+        name="DetailsScreen"
+        component={UserDetailsScreen}
+        options={{
+          title: 'User Details Screen',
+        }}
+      />
+      <Stack.Screen
+        name="NewUserScreen"
+        component={NewUserScreen}
+        options={{
+          title: 'New User Screen',
         }}
       />
     </Stack.Navigator>
