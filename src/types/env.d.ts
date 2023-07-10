@@ -1,4 +1,4 @@
 declare module '@env' {
-  export const BASE_URL: string;
-  export const JSON_URL: string;
+  export const DUMMY_JSON_URL: string;
+  export const JSON_SERVER_URL: string;
 }
