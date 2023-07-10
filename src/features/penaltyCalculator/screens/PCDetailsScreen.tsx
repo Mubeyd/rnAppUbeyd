@@ -1,12 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
+import { useFormik } from 'formik';
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { getCountries } from '../api/countryApi';
+import { validationSchema } from '../helpers/validation';
 import { Country, setBookBorrowDate, setBookReturnDate, setCountry } from '../state/bookBorrowSlice';
 
 export default function PCDetailsScreen() {
@@ -30,6 +32,22 @@ export default function PCDetailsScreen() {
     queryKey: ['countries'],
     queryFn: () => getCountries(),
   });
+
+  const formik = useFormik({
+    initialValues: {
+      bookBorrowDate: bookBorrowDate || new Date(),
+      bookReturnDate: bookReturnDate || new Date(),
+      country: country?.name || '',
+      bookPhotoFront: bookPhotoFront || '',
+      bookPhotoBack: bookPhotoBack || '',
+    },
+    validationSchema,
+    onSubmit: () => {
+      navigate('PCSummaryScreen');
+    },
+  });
+
+  const { handleSubmit, touched, errors } = formik;
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<string | null>(null);
@@ -69,30 +87,32 @@ export default function PCDetailsScreen() {
     [dispatch, hideDatePickerReturn],
   );
 
-  const onSubmit = useCallback(() => {
-    if (!bookBorrowDate) {
-      Alert.alert('Please select a borrowing date');
-      return;
-    }
-    if (!bookReturnDate) {
-      Alert.alert('Please select a returning date');
-      return;
-    }
-    if (!country) {
-      Alert.alert('Please select a country');
-      return;
-    }
-    if (!bookPhotoFront) {
-      Alert.alert('Please take a photo of the front cover');
-      return;
-    }
-    if (!bookPhotoBack) {
-      Alert.alert('Please take a photo of the back cover');
-      return;
-    }
+  const onSubmit = useCallback(() => handleSubmit, [handleSubmit]);
 
-    navigate('PCSummaryScreen');
-  }, [bookBorrowDate, bookPhotoBack, bookPhotoFront, bookReturnDate, country, navigate]);
+  // const onSubmit = useCallback(() => {
+  //   if (!bookBorrowDate) {
+  //     Alert.alert('Please select a borrowing date');
+  //     return;
+  //   }
+  //   if (!bookReturnDate) {
+  //     Alert.alert('Please select a returning date');
+  //     return;
+  //   }
+  //   if (!country) {
+  //     Alert.alert('Please select a country');
+  //     return;
+  //   }
+  //   if (!bookPhotoFront) {
+  //     Alert.alert('Please take a photo of the front cover');
+  //     return;
+  //   }
+  //   if (!bookPhotoBack) {
+  //     Alert.alert('Please take a photo of the back cover');
+  //     return;
+  //   }
+
+  //   navigate('PCSummaryScreen');
+  // }, [bookBorrowDate, bookPhotoBack, bookPhotoFront, bookReturnDate, country, navigate]);
 
   const ActivityIndicatorElement = useCallback(() => {
     return (
@@ -134,6 +154,9 @@ export default function PCDetailsScreen() {
           date={bookBorrowDate ?? new Date()}
           maximumDate={new Date()}
         />
+        {touched.bookBorrowDate && errors.bookBorrowDate ? (
+          <Text style={styles.errorText}>errors.bookBorrowDate.toString()</Text>
+        ) : null}
       </View>
 
       <View style={{ width: 200, height: 2, backgroundColor: 'gray', margin: 4 }} />
@@ -152,6 +175,9 @@ export default function PCDetailsScreen() {
           minimumDate={bookBorrowDate ?? new Date()}
           maximumDate={new Date()}
         />
+        {touched.bookReturnDate && errors.bookReturnDate ? (
+          <Text style={styles.errorText}>errors.bookReturnDate.toString()</Text>
+        ) : null}
       </View>
 
       <View style={{ margin: 4 }}>
@@ -168,6 +194,7 @@ export default function PCDetailsScreen() {
           searchable={true}
           searchPlaceholder="Search..."
         />
+        {touched.country && errors.country ? <Text style={styles.errorText}>errors.country.toString()</Text> : null}
       </View>
 
       <Text style={styles.textDes}>Images </Text>
@@ -189,6 +216,9 @@ export default function PCDetailsScreen() {
               marginRight: 8,
             }}
           />
+          {errors.bookPhotoFront && touched.bookPhotoFront ? (
+            <Text style={styles.errorText}>errors.bookPhotoFront.toString()</Text>
+          ) : null}
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigate('CameraScreen', { photoType: 'back' })}>
@@ -201,6 +231,9 @@ export default function PCDetailsScreen() {
               marginRight: 8,
             }}
           />
+          {errors.bookPhotoBack && touched.bookPhotoBack ? (
+            <Text style={styles.errorText}>errors.bookPhotoBack.toString()</Text>
+          ) : null}
         </TouchableOpacity>
       </View>
 
@@ -229,9 +262,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'blue',
   },
-  cameraStyle: {
-    height: 200,
-    width: 200,
+  errorText: {
+    color: 'red',
+    fontSize: 12,
   },
   textDes: {
     color: '#1b1d19',
