@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useFormik } from 'formik';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../redux/hooks';
@@ -94,6 +94,35 @@ export default function NewUserScreen() {
   const onSubmit = useCallback(() => {
     handleSubmit();
   }, [handleSubmit]);
+
+  useEffect(() => {
+    formik.setValues({
+      firstName: firstName,
+      lastName: lastName,
+      age: age,
+      image: image,
+      companyName: companyName,
+      companyTitle: companyTitle,
+      companyAddress: companyAddress,
+      companyCity: companyCity,
+      companyState: companyState,
+      companyPostalCode: companyPostalCode,
+      companyDepartment: companyDepartment,
+    });
+  }, [
+    age,
+    companyName,
+    companyAddress,
+    companyCity,
+    companyDepartment,
+    companyPostalCode,
+    companyState,
+    companyTitle,
+    firstName,
+    formik,
+    image,
+    lastName,
+  ]);
 
   return (
     <View
@@ -204,13 +233,6 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     fontSize: 12,
-  },
-  textCompany: {
-    color: 'blue',
-    fontSize: 16,
-    fontWeight: '600',
-    margin: 4,
-    textAlign: 'center',
   },
   textHeader: {
     color: 'black',
