@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AsyncButton } from '../../components/AsyncButton';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { decrement, increment, incrementAsync, incrementByAmount, selectCount } from '../../redux/slices/counterSlice';
+import { AsyncButton } from '../../../components/AsyncButton';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { decrement, increment, incrementAsync, incrementByAmount, selectCount } from '../state/counterSlice';
 
 export function Counter() {
   const [incrementAmount, setIncrementAmount] = useState('2');
