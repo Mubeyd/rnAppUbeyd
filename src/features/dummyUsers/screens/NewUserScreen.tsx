@@ -1,8 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
+import { useFormik } from 'formik';
 import React, { useCallback, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../redux/hooks';
+import { validationSchema } from '../helpers/validation';
 import { setNewUser } from '../state/userSlice';
 
 export default function NewUserScreen() {
@@ -25,7 +27,7 @@ export default function NewUserScreen() {
   const [companyPostalCode, setCompanyPostalCode] = useState('');
   const [companyDepartment, setCompanyDepartment] = useState('');
 
-  const onPress = useCallback(() => {
+  const onDispatch = useCallback(() => {
     dispatch(
       setNewUser({
         newUser: {
@@ -66,6 +68,33 @@ export default function NewUserScreen() {
     lastName,
   ]);
 
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      age: 0,
+      image: '',
+      companyName: '',
+      companyTitle: '',
+      companyAddress: '',
+      companyCity: '',
+      companyState: '',
+      companyPostalCode: '',
+      companyDepartment: '',
+    },
+    onSubmit: () => {
+      onDispatch();
+      goBack();
+    },
+    validationSchema: validationSchema,
+  });
+
+  const { handleSubmit, touched, errors } = formik;
+
+  const onSubmit = useCallback(() => {
+    handleSubmit();
+  }, [handleSubmit]);
+
   return (
     <View
       style={{
@@ -74,7 +103,11 @@ export default function NewUserScreen() {
       }}>
       <Text style={styles.textHeader}>Add new user</Text>
       <TextInput style={styles.textInput} onChangeText={setFirstName} value={firstName} placeholder="First Name" />
+      {touched.firstName && errors.firstName && <Text style={styles.errorText}>{errors.firstName}</Text>}
+
       <TextInput style={styles.textInput} onChangeText={setLastName} value={lastName} placeholder="Last Name" />
+      {touched.lastName && errors.lastName && <Text style={styles.errorText}>{errors.lastName}</Text>}
+
       <TextInput
         style={styles.textInput}
         inputMode="numeric"
@@ -82,53 +115,74 @@ export default function NewUserScreen() {
         value={age.toString()}
         placeholder="Age"
       />
+      {touched.age && errors.age && <Text style={styles.errorText}>{errors.age}</Text>}
+
       <TextInput style={styles.textInput} onChangeText={setImage} value={image} placeholder="Image" />
+      {touched.image && errors.image && <Text style={styles.errorText}>{errors.image}</Text>}
+
       <TextInput
         style={styles.textInput}
         onChangeText={setCompanyName}
         value={companyName}
         placeholder="Company Name"
       />
+      {touched.companyName && errors.companyName && <Text style={styles.errorText}>{errors.companyName}</Text>}
+
       <TextInput
         style={styles.textInput}
         onChangeText={setCompanyTitle}
         value={companyTitle}
         placeholder="Company Title"
       />
+      {touched.companyTitle && errors.companyTitle && <Text style={styles.errorText}>{errors.companyTitle}</Text>}
+
       <TextInput
         style={styles.textInput}
         onChangeText={setCompanyAddress}
         value={companyAddress}
         placeholder="Company Address"
       />
+      {touched.companyAddress && errors.companyAddress && <Text style={styles.errorText}>{errors.companyAddress}</Text>}
+
       <TextInput
         style={styles.textInput}
         onChangeText={setCompanyCity}
         value={companyCity}
         placeholder="Company City"
       />
+      {touched.companyCity && errors.companyCity && <Text style={styles.errorText}>{errors.companyCity}</Text>}
+
       <TextInput
         style={styles.textInput}
         onChangeText={setCompanyState}
         value={companyState}
         placeholder="Company State"
       />
+      {touched.companyState && errors.companyState && <Text style={styles.errorText}>{errors.companyState}</Text>}
+
       <TextInput
         style={styles.textInput}
         onChangeText={setCompanyPostalCode}
         value={companyPostalCode}
         placeholder="Company Postal Code"
       />
+      {touched.companyPostalCode && errors.companyPostalCode && (
+        <Text style={styles.errorText}>{errors.companyPostalCode}</Text>
+      )}
+
       <TextInput
         style={styles.textInput}
         onChangeText={setCompanyDepartment}
         value={companyDepartment}
         placeholder="Company Department"
       />
+      {touched.companyDepartment && errors.companyDepartment && (
+        <Text style={styles.errorText}>{errors.companyDepartment}</Text>
+      )}
 
       <Text style={styles.textHeader}>{currentUser?.company?.address?.postalCode}</Text>
 
-      <TouchableOpacity style={styles.button} onPress={onPress}>
+      <TouchableOpacity style={styles.button} onPress={onSubmit}>
         <Text style={styles.buttonText}>Confirm New User</Text>
       </TouchableOpacity>
     </View>
@@ -146,6 +200,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'blue',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
   },
   textCompany: {
     color: 'blue',
