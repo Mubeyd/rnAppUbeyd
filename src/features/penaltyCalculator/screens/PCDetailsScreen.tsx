@@ -41,6 +41,7 @@ export default function PCDetailsScreen() {
       bookPhotoFront: bookPhotoFront || '',
       bookPhotoBack: bookPhotoBack || '',
     },
+    // enableReinitialize: true,
     validationSchema,
     onSubmit: () => {
       navigate('PCSummaryScreen');
@@ -136,6 +137,18 @@ export default function PCDetailsScreen() {
       }
     }
   }, [countries, dispatch, value]);
+
+  useEffect(() => {
+    formik.setValues({
+      bookBorrowDate,
+      bookReturnDate,
+      country: country?.name || '',
+      bookPhotoFront: bookPhotoFront || '',
+      bookPhotoBack: bookPhotoBack || '',
+    });
+  }, [bookBorrowDate, bookReturnDate, country, bookPhotoFront, bookPhotoBack, formik]);
+
+  //
 
   return (
     <View style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
