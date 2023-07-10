@@ -5,16 +5,23 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 export default function HomeScreen() {
   const { navigate } = useNavigation() as any;
 
-  const onPress = useCallback(() => {
-    navigate('DetailsScreen');
+  const onNavBookBorrowing = useCallback(() => {
+    navigate('ContactsScreen');
+  }, [navigate]);
+
+  const onNavDummyUsers = useCallback(() => {
+    navigate('UsersListScreen');
   }, [navigate]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textHeader}>HomeScreenRQ</Text>
+      <Text style={styles.textHeader}>Select Feature </Text>
 
-      <TouchableOpacity style={styles.button} onPress={onPress}>
-        <Text style={styles.buttonText}>Go to Details</Text>
+      <TouchableOpacity style={styles.button} onPress={onNavBookBorrowing}>
+        <Text style={styles.buttonText}>Book Borrowing</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={onNavDummyUsers}>
+        <Text style={styles.buttonText}>Dummy users</Text>
       </TouchableOpacity>
       <View style={{ height: 30 }} />
     </View>

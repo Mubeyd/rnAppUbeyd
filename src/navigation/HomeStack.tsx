@@ -4,6 +4,7 @@ import { Camera, CameraPermissionStatus } from 'react-native-vision-camera';
 import NewUserScreen from '../features/dummyUsers/screens/NewUserScreen';
 import UserDetailsScreen from '../features/dummyUsers/screens/UserDetailsScreen';
 import UsersListScreen from '../features/dummyUsers/screens/UsersListScreen';
+import HomeScreen from '../features/home/screens/HomeScreen';
 import { CameraScreen } from '../features/penaltyCalculator/screens/CameraScreen';
 import ContactsScreen from '../features/penaltyCalculator/screens/ContactsScreen';
 import { MediaScreen } from '../features/penaltyCalculator/screens/MediaScreen';
@@ -30,6 +31,13 @@ export function HomeStack() {
   const showPermissionsPage = cameraPermission !== 'authorized' || microphonePermission === 'not-determined';
   return (
     <Stack.Navigator initialRouteName={showPermissionsPage ? 'PermissionsScreen' : 'HomeScreen'}>
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{
+          title: 'Home Screen',
+        }}
+      />
       <Stack.Screen
         name="ContactsScreen"
         component={ContactsScreen}
