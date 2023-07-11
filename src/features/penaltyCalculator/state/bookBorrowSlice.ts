@@ -1,28 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export const AllowedBorrowingDays = 10;
-export const PenaltyPerDay = 5;
-
-export enum WeekendsType {
-  Type1 = 1, // Saturday and Sunday
-  Type2 = 2, // Friday and Saturday
-}
-
-export interface Contact {
-  id: number;
-  name: string;
-}
-
-export interface Country {
-  id: number;
-  name: string;
-  currencySymbol: string;
-  currencyName: string;
-  flag: string;
-  weekend: number;
-  holiDays: string[];
-  penaltyPerDay: number;
-}
+import { Contact, Country } from '../db/types';
 
 interface CounterState {
   contacts: Contact[];
@@ -32,6 +9,7 @@ interface CounterState {
   country: Country | null;
   bookPhotoFront: string | null;
   bookPhotoBack: string | null;
+  errors: any;
 }
 
 const initialState: CounterState = {
@@ -42,6 +20,7 @@ const initialState: CounterState = {
   country: null,
   bookPhotoFront: null,
   bookPhotoBack: null,
+  errors: {},
 };
 
 export const bookBorrowSlice = createSlice({
@@ -72,10 +51,17 @@ export const bookBorrowSlice = createSlice({
     setBookPhotoBack: (state, action: PayloadAction<{ bookPhotoBack: string }>) => {
       state.bookPhotoBack = action.payload.bookPhotoBack;
     },
+    setErrors: (state, action: PayloadAction<{ errors: any }>) => {
+      state.errors = action.payload.errors;
+    },
+    setFormErrors: (state, action: PayloadAction<{ fieldName: string; error: string }>) => {
+      state.errors[action.payload.fieldName] = action.payload.error;
+    },
   },
 });
 
 export const {
+  resetState,
   setContacts,
   setCurrentContact,
   setBookBorrowDate,
@@ -83,6 +69,8 @@ export const {
   setCountry,
   setBookPhotoFront,
   setBookPhotoBack,
+  setErrors,
+  setFormErrors,
 } = bookBorrowSlice.actions;
 
 export default bookBorrowSlice.reducer;

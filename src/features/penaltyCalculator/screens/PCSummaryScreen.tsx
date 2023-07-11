@@ -2,12 +2,14 @@ import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useAppSelector } from '../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { AllowedBorrowingDays } from '../db/types';
 import { calculateWorkdays } from '../helpers/calculateWorkdays';
-import { AllowedBorrowingDays } from '../state/bookBorrowSlice';
+import { resetState } from '../state/bookBorrowSlice';
 
 export default function PCSummaryScreen() {
   const { goBack, navigate } = useNavigation() as any;
+  const dispatch = useAppDispatch();
 
   const currentContact = useAppSelector(state => state.bookBorrow.currentContact);
   const bookBorrowDate = useAppSelector(state => state.bookBorrow.bookBorrowDate);
@@ -33,8 +35,9 @@ export default function PCSummaryScreen() {
   );
 
   const onReceive = useCallback(() => {
+    dispatch(resetState());
     navigate('ContactsScreen');
-  }, [navigate]);
+  }, [dispatch, navigate]);
 
   const onPress = useCallback(() => {
     goBack();

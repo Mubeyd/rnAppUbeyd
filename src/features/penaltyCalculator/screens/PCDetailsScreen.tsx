@@ -1,15 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
-import { useFormik } from 'formik';
 import moment from 'moment';
-import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, Alert, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { getCountries } from '../api/countryApi';
-import { bookBorrowValidationSchema } from '../helpers/validation';
-import { Country, setBookBorrowDate, setBookReturnDate, setCountry } from '../state/bookBorrowSlice';
+import { Country } from '../db/types';
+import { bookBorrowFieldsValidation, bookBorrowValidationSync } from '../helpers/validation';
+import { setBookBorrowDate, setBookReturnDate, setCountry, setErrors } from '../state/bookBorrowSlice';
 
 export default function PCDetailsScreen() {
   const { navigate } = useNavigation() as any;
@@ -21,6 +21,7 @@ export default function PCDetailsScreen() {
   const country = useAppSelector(state => state.bookBorrow.country);
   const bookPhotoFront = useAppSelector(state => state.bookBorrow.bookPhotoFront);
   const bookPhotoBack = useAppSelector(state => state.bookBorrow.bookPhotoBack);
+  const errors = useAppSelector(state => state.bookBorrow.errors);
 
   const [isDatePickerVisibleBorrow, setDatePickerVisibilityBorrow] = useState(false);
 
@@ -32,23 +33,6 @@ export default function PCDetailsScreen() {
     queryKey: ['countries'],
     queryFn: () => getCountries(),
   });
-
-  const formik = useFormik({
-    initialValues: {
-      bookBorrowDate: bookBorrowDate || new Date(),
-      bookReturnDate: bookReturnDate || new Date(),
-      country: country?.name || '',
-      bookPhotoFront: bookPhotoFront || '',
-      bookPhotoBack: bookPhotoBack || '',
-    },
-    // enableReinitialize: true,
-    validationSchema: bookBorrowValidationSchema,
-    onSubmit: () => {
-      navigate('PCSummaryScreen');
-    },
-  });
-
-  const { handleSubmit, touched, errors } = formik;
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<string | null>(null);
@@ -88,32 +72,50 @@ export default function PCDetailsScreen() {
     [dispatch, hideDatePickerReturn],
   );
 
-  const onSubmit = useCallback(() => handleSubmit, [handleSubmit]);
+  const onSubmit = useCallback(() => {
+    if (!bookBorrowDate) {
+      Alert.alert('Please select a borrowing date');
+      return;
+    }
+    if (!bookReturnDate) {
+      Alert.alert('Please select a returning date');
+      return;
+    }
+    if (!country) {
+      Alert.alert('Please select a country');
+      return;
+    }
+    if (!bookPhotoFront) {
+      Alert.alert('Please take a photo of the front cover');
+      return;
+    }
+    if (!bookPhotoBack) {
+      Alert.alert('Please take a photo of the back cover');
+      return;
+    }
 
-  // const onSubmit = useCallback(() => {
-  //   if (!bookBorrowDate) {
-  //     Alert.alert('Please select a borrowing date');
-  //     return;
-  //   }
-  //   if (!bookReturnDate) {
-  //     Alert.alert('Please select a returning date');
-  //     return;
-  //   }
-  //   if (!country) {
-  //     Alert.alert('Please select a country');
-  //     return;
-  //   }
-  //   if (!bookPhotoFront) {
-  //     Alert.alert('Please take a photo of the front cover');
-  //     return;
-  //   }
-  //   if (!bookPhotoBack) {
-  //     Alert.alert('Please take a photo of the back cover');
-  //     return;
-  //   }
+    async function saveBookBorrow() {
+      const { isValid, errors: yupErrors } = await bookBorrowFieldsValidation({
+        currentContact,
+        bookBorrowDate,
+        bookReturnDate,
+        country,
+        bookPhotoFront,
+        bookPhotoBack,
+      });
 
-  //   navigate('PCSummaryScreen');
-  // }, [bookBorrowDate, bookPhotoBack, bookPhotoFront, bookReturnDate, country, navigate]);
+      dispatch(setErrors({ errors: yupErrors }));
+
+      if (!isValid) {
+        Alert.alert('Please fill in all the fields');
+        return;
+      }
+    }
+
+    saveBookBorrow();
+
+    navigate('PCSummaryScreen');
+  }, [bookBorrowDate, bookPhotoBack, bookPhotoFront, bookReturnDate, country, currentContact, dispatch, navigate]);
 
   const ActivityIndicatorElement = useCallback(() => {
     return (
@@ -122,6 +124,19 @@ export default function PCDetailsScreen() {
       </View>
     );
   }, []);
+
+  const isValidSync = useMemo(
+    () =>
+      bookBorrowValidationSync({
+        currentContact,
+        bookBorrowDate,
+        bookReturnDate,
+        country,
+        bookPhotoFront,
+        bookPhotoBack,
+      }),
+    [bookBorrowDate, bookPhotoBack, bookPhotoFront, bookReturnDate, country, currentContact],
+  );
 
   useEffect(() => {
     if (countries) {
@@ -137,18 +152,6 @@ export default function PCDetailsScreen() {
       }
     }
   }, [countries, dispatch, value]);
-
-  // useEffect(() => {
-  //   formik.setValues({
-  //     bookBorrowDate,
-  //     bookReturnDate,
-  //     country: country?.name || '',
-  //     bookPhotoFront: bookPhotoFront || '',
-  //     bookPhotoBack: bookPhotoBack || '',
-  //   });
-  // }, [bookBorrowDate, bookReturnDate, country, bookPhotoFront, bookPhotoBack, formik]);
-
-  //
 
   return (
     <View style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
@@ -167,9 +170,7 @@ export default function PCDetailsScreen() {
           date={bookBorrowDate ?? new Date()}
           maximumDate={new Date()}
         />
-        {touched.bookBorrowDate && errors.bookBorrowDate ? (
-          <Text style={styles.errorText}>errors.bookBorrowDate.toString()</Text>
-        ) : null}
+        {errors?.bookBorrowDate ? <Text style={styles.errorText}>errors?.bookBorrowDate.toString()</Text> : null}
       </View>
 
       <View style={{ width: 200, height: 2, backgroundColor: 'gray', margin: 4 }} />
@@ -188,9 +189,7 @@ export default function PCDetailsScreen() {
           minimumDate={bookBorrowDate ?? new Date()}
           maximumDate={new Date()}
         />
-        {touched.bookReturnDate && errors.bookReturnDate ? (
-          <Text style={styles.errorText}>errors.bookReturnDate.toString()</Text>
-        ) : null}
+        {errors?.bookReturnDate ? <Text style={styles.errorText}>errors?.bookReturnDate.toString()</Text> : null}
       </View>
 
       <View style={{ margin: 4 }}>
@@ -207,7 +206,7 @@ export default function PCDetailsScreen() {
           searchable={true}
           searchPlaceholder="Search..."
         />
-        {touched.country && errors.country ? <Text style={styles.errorText}>errors.country.toString()</Text> : null}
+        {errors?.country ? <Text style={styles.errorText}>errors?.country.toString()</Text> : null}
       </View>
 
       <Text style={styles.textDes}>Images </Text>
@@ -229,9 +228,7 @@ export default function PCDetailsScreen() {
               marginRight: 8,
             }}
           />
-          {errors.bookPhotoFront && touched.bookPhotoFront ? (
-            <Text style={styles.errorText}>errors.bookPhotoFront.toString()</Text>
-          ) : null}
+          {errors?.bookPhotoFront ? <Text style={styles.errorText}>errors?.bookPhotoFront.toString()</Text> : null}
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigate('CameraScreen', { photoType: 'back' })}>
@@ -244,14 +241,12 @@ export default function PCDetailsScreen() {
               marginRight: 8,
             }}
           />
-          {errors.bookPhotoBack && touched.bookPhotoBack ? (
-            <Text style={styles.errorText}>errors.bookPhotoBack.toString()</Text>
-          ) : null}
+          {errors?.bookPhotoBack ? <Text style={styles.errorText}>errors?.bookPhotoBack.toString()</Text> : null}
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={onSubmit}>
-        <Text style={styles.buttonText}>Submit</Text>
+      <TouchableOpacity style={styles.button} disabled={!isValidSync} onPress={onSubmit}>
+        <Text style={isValidSync ? styles.buttonText : styles.buttonTextDisabled}>Submit</Text>
       </TouchableOpacity>
     </View>
   );
@@ -274,6 +269,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'blue',
+  },
+  buttonTextDisabled: {
+    color: 'gray',
   },
   errorText: {
     color: 'red',

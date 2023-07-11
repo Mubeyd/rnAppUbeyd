@@ -5,7 +5,8 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { getContacts } from '../api/contactApi';
-import { Contact, setContacts, setCurrentContact } from '../state/bookBorrowSlice';
+import { Contact } from '../db/types';
+import { setContacts, setCurrentContact } from '../state/bookBorrowSlice';
 
 export default function ContactsScreen() {
   const { navigate } = useNavigation() as any;
