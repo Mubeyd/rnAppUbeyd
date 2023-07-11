@@ -10,7 +10,12 @@ import ContactsScreen from '../features/penaltyCalculator/screens/ContactsScreen
 import { MediaScreen } from '../features/penaltyCalculator/screens/MediaScreen';
 import PCDetailsScreen from '../features/penaltyCalculator/screens/PCDetailsScreen';
 import PCSummaryScreen from '../features/penaltyCalculator/screens/PCSummaryScreen';
-import { PermissionsScreen } from '../features/penaltyCalculator/screens/PermissionsScreen';
+import { PermissionsScreen } from '../features/home/screens/PermissionsScreen';
+import { CameraScreenFormik } from '../features/penaltyCalculatorFormik/screens/CameraScreen';
+import ContactsScreenFormik from '../features/penaltyCalculatorFormik/screens/ContactsScreen';
+import { MediaScreenFormik } from '../features/penaltyCalculatorFormik/screens/MediaScreen';
+import PCDetailsScreenFormik from '../features/penaltyCalculatorFormik/screens/PCDetailsScreen';
+import PCSummaryScreenFormik from '../features/penaltyCalculatorFormik/screens/PCSummaryScreen';
 
 const Stack = createStackNavigator();
 
@@ -99,6 +104,44 @@ export function HomeStack() {
         component={NewUserScreen}
         options={{
           title: 'New User Screen',
+        }}
+      />
+
+      {/* Book Borrow with Formik */}
+
+      <Stack.Screen
+        name="ContactsScreenFormik"
+        component={ContactsScreenFormik}
+        options={{
+          title: 'Contacts Screen',
+        }}
+      />
+      <Stack.Screen
+        name="PCDetailsScreenFormik"
+        component={PCDetailsScreenFormik}
+        options={{
+          title: 'PC Details Screen',
+        }}
+      />
+      <Stack.Screen
+        name="PCSummaryScreenFormik"
+        component={PCSummaryScreenFormik}
+        options={{
+          title: 'PC Summary Screen',
+        }}
+      />
+      <Stack.Screen
+        name="CameraScreenFormik"
+        component={CameraScreenFormik}
+        options={{
+          title: 'Camera Screen',
+        }}
+      />
+      <Stack.Screen
+        name="MediaScreenFormik"
+        component={MediaScreenFormik}
+        options={{
+          title: 'Media Screen',
         }}
       />
     </Stack.Navigator>
