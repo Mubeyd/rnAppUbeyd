@@ -9,6 +9,10 @@ export default function HomeScreen() {
     navigate('ContactsScreen');
   }, [navigate]);
 
+  const onNavBookBorrowingFormik = useCallback(() => {
+    navigate('ContactsScreenFormik');
+  }, [navigate]);
+
   const onNavDummyUsers = useCallback(() => {
     navigate('UsersListScreen');
   }, [navigate]);
@@ -20,6 +24,11 @@ export default function HomeScreen() {
       <TouchableOpacity style={styles.button} onPress={onNavBookBorrowing}>
         <Text style={styles.buttonText}>Book Borrowing</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={onNavBookBorrowingFormik}>
+        <Text style={styles.buttonText}>Book Borrowing Formik</Text>
+      </TouchableOpacity>
+
       <TouchableOpacity style={styles.button} onPress={onNavDummyUsers}>
         <Text style={styles.buttonText}>Dummy users</Text>
       </TouchableOpacity>

@@ -38,7 +38,7 @@ export function PermissionsScreen(): React.ReactElement {
 
   useEffect(() => {
     if (cameraPermissionStatus === 'authorized' && microphonePermissionStatus === 'authorized') {
-      replace('ContactsScreen');
+      replace('HomeScreen');
     }
   }, [cameraPermissionStatus, microphonePermissionStatus, replace]);
 

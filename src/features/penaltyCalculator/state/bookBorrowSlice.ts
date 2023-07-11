@@ -48,6 +48,9 @@ export const bookBorrowSlice = createSlice({
   name: 'bookBorrow',
   initialState,
   reducers: {
+    resetState: () => {
+      return initialState;
+    },
     setContacts: (state, action: PayloadAction<Contact[]>) => {
       state.contacts = action.payload;
     },
