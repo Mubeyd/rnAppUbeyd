@@ -8,7 +8,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { getCountries } from '../api/countryApi';
-import { validationSchema } from '../helpers/validation';
+import { bookBorrowValidationSchema } from '../helpers/validation';
 import { Country, setBookBorrowDate, setBookReturnDate, setCountry } from '../state/bookBorrowSlice';
 
 export default function PCDetailsScreen() {
@@ -42,7 +42,7 @@ export default function PCDetailsScreen() {
       bookPhotoBack: bookPhotoBack || '',
     },
     // enableReinitialize: true,
-    validationSchema,
+    validationSchema: bookBorrowValidationSchema,
     onSubmit: () => {
       navigate('PCSummaryScreen');
     },
@@ -138,15 +138,15 @@ export default function PCDetailsScreen() {
     }
   }, [countries, dispatch, value]);
 
-  useEffect(() => {
-    formik.setValues({
-      bookBorrowDate,
-      bookReturnDate,
-      country: country?.name || '',
-      bookPhotoFront: bookPhotoFront || '',
-      bookPhotoBack: bookPhotoBack || '',
-    });
-  }, [bookBorrowDate, bookReturnDate, country, bookPhotoFront, bookPhotoBack, formik]);
+  // useEffect(() => {
+  //   formik.setValues({
+  //     bookBorrowDate,
+  //     bookReturnDate,
+  //     country: country?.name || '',
+  //     bookPhotoFront: bookPhotoFront || '',
+  //     bookPhotoBack: bookPhotoBack || '',
+  //   });
+  // }, [bookBorrowDate, bookReturnDate, country, bookPhotoFront, bookPhotoBack, formik]);
 
   //
 
