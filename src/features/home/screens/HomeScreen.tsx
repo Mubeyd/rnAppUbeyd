@@ -56,10 +56,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  listContainer: {
-    flex: 1,
-    marginBottom: 16,
-  },
   textHeader: {
     color: 'blue',
     fontSize: 24,

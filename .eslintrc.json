@@ -68,5 +68,8 @@
         "no-console": "error",
         "@typescript-eslint/no-var-requires": "warn",
         "react/react-in-jsx-scope": "off"
+    },
+    "env": {
+        "jest": true
     }
 }
