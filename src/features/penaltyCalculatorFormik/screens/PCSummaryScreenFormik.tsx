@@ -3,8 +3,8 @@ import moment from 'moment';
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useAppSelector } from '../../../redux/hooks';
+import { AllowedBorrowingDays } from '../db/types';
 import { calculateWorkdays } from '../helpers/calculateWorkdays';
-import { AllowedBorrowingDays } from '../state/bookBorrowSlice';
 
 export default function PCSummaryScreenFormik() {
   const { goBack, navigate } = useNavigation() as any;
@@ -33,7 +33,7 @@ export default function PCSummaryScreenFormik() {
   );
 
   const onReceive = useCallback(() => {
-    navigate('ContactsScreen');
+    navigate('ContactsScreenFormik');
   }, [navigate]);
 
   const onPress = useCallback(() => {

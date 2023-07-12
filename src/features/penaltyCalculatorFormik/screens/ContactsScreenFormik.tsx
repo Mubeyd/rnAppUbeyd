@@ -5,7 +5,8 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { getContacts } from '../api/contactApi';
-import { Contact, setContacts, setCurrentContact } from '../state/bookBorrowSlice';
+import { Contact } from '../db/types';
+import { setContacts, setCurrentContact } from '../state/bookBorrowSlice';
 
 export default function ContactsScreenFormik() {
   const { navigate } = useNavigation() as any;
@@ -23,17 +24,17 @@ export default function ContactsScreenFormik() {
   const data = useAppSelector(state => state.bookBorrow.contacts);
 
   const onPress = useCallback(() => {
-    navigate('PCDetailsScreen', { id: '1' });
+    navigate('PCDetailsScreenFormik', { id: '1' });
   }, [navigate]);
 
   const navigateCameraScreen = useCallback(() => {
-    navigate('CameraScreen', { id: '1' });
+    navigate('CameraScreenFormik', { id: '1' });
   }, [navigate]);
 
   const onPressItem = useCallback(
     ({ item }: { item: Contact }) => {
       dispatch(setCurrentContact(item));
-      navigate('PCDetailsScreen');
+      navigate('PCDetailsScreenFormik');
     },
     [dispatch, navigate],
   );
@@ -61,8 +62,12 @@ export default function ContactsScreenFormik() {
 
       <Text style={{ color: 'black' }}>Please select a Contact:</Text>
       <View style={styles.listContainer}>
-        {!!error && <Text>Error: {(error as any)?.message}</Text>}
-        {isLoading ? <Text>Loading...</Text> : <FlatList data={data} renderItem={renderItem} />}
+        {!!error && <Text style={{ color: 'red' }}>Error: {(error as any)?.message}</Text>}
+        {isLoading ? (
+          <Text style={{ color: 'black' }}>Loading...</Text>
+        ) : (
+          <FlatList data={data} renderItem={renderItem} />
+        )}
       </View>
 
       <TouchableOpacity style={styles.button} onPress={onPress}>

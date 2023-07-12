@@ -163,7 +163,7 @@ export function CameraScreenFormik() {
         dispatch(setBookPhotoBack({ bookPhotoBack: media.path }));
       }
       goBack();
-      // navigate('MediaScreen', {
+      // navigate('MediaScreenFormik', {
       //   path: media.path,
       //   type: type,
       // });

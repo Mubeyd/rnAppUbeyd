@@ -3,13 +3,21 @@ import { useQuery } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Button, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { getCountries } from '../api/countryApi';
+import { Country, IBookBorrow } from '../db/types';
 import { bookBorrowValidationSchema } from '../helpers/validation';
-import { Country, setBookBorrowDate, setBookReturnDate, setCountry } from '../state/bookBorrowSlice';
+import {
+  setBookBorrowDate,
+  setBookPhotoBack,
+  setBookPhotoFront,
+  setBookReturnDate,
+  setCountry,
+  setCurrentContact,
+} from '../state/bookBorrowSlice';
 
 export default function PCDetailsScreenFormik() {
   const { navigate } = useNavigation() as any;
@@ -33,18 +41,26 @@ export default function PCDetailsScreenFormik() {
     queryFn: () => getCountries(),
   });
 
-  const formik = useFormik({
+  const formik = useFormik<IBookBorrow>({
     initialValues: {
-      bookBorrowDate: bookBorrowDate || new Date(),
-      bookReturnDate: bookReturnDate || new Date(),
-      country: country?.name || '',
+      bookBorrowDate: bookBorrowDate,
+      bookReturnDate: bookReturnDate,
+      country: country,
       bookPhotoFront: bookPhotoFront || '',
       bookPhotoBack: bookPhotoBack || '',
+      currentContact: currentContact,
+      randomText: undefined,
     },
-    // enableReinitialize: true,
     validationSchema: bookBorrowValidationSchema,
-    onSubmit: () => {
-      navigate('PCSummaryScreen');
+    onSubmit(values) {
+      dispatch(setBookBorrowDate({ date: values.bookBorrowDate }));
+      dispatch(setBookReturnDate({ date: values.bookReturnDate }));
+      dispatch(setCountry({ country: values.country! }));
+      dispatch(setBookPhotoFront({ bookPhotoFront: values.bookPhotoFront! }));
+      dispatch(setBookPhotoBack({ bookPhotoBack: values.bookPhotoBack! }));
+      dispatch(setCurrentContact(values.currentContact!));
+
+      navigate('PCSummaryScreenFormik');
     },
   });
 
@@ -64,10 +80,10 @@ export default function PCDetailsScreenFormik() {
 
   const handleConfirmBorrow = useCallback(
     (date: any) => {
-      dispatch(setBookBorrowDate({ date }));
+      formik.setFieldValue('bookBorrowDate', date);
       hideDatePickerBorrow();
     },
-    [dispatch, hideDatePickerBorrow],
+    [formik, hideDatePickerBorrow],
   );
 
   const [isDatePickerVisibleReturn, setDatePickerVisibilityReturn] = useState(false);
@@ -82,38 +98,15 @@ export default function PCDetailsScreenFormik() {
 
   const handleConfirmReturn = useCallback(
     (date: any) => {
-      dispatch(setBookReturnDate({ date }));
+      formik.setFieldValue('bookReturnDate', date);
       hideDatePickerReturn();
     },
-    [dispatch, hideDatePickerReturn],
+    [formik, hideDatePickerReturn],
   );
 
-  const onSubmit = useCallback(() => handleSubmit, [handleSubmit]);
-
-  // const onSubmit = useCallback(() => {
-  //   if (!bookBorrowDate) {
-  //     Alert.alert('Please select a borrowing date');
-  //     return;
-  //   }
-  //   if (!bookReturnDate) {
-  //     Alert.alert('Please select a returning date');
-  //     return;
-  //   }
-  //   if (!country) {
-  //     Alert.alert('Please select a country');
-  //     return;
-  //   }
-  //   if (!bookPhotoFront) {
-  //     Alert.alert('Please take a photo of the front cover');
-  //     return;
-  //   }
-  //   if (!bookPhotoBack) {
-  //     Alert.alert('Please take a photo of the back cover');
-  //     return;
-  //   }
-
-  //   navigate('PCSummaryScreen');
-  // }, [bookBorrowDate, bookPhotoBack, bookPhotoFront, bookReturnDate, country, navigate]);
+  const onSubmit = useCallback(() => {
+    handleSubmit();
+  }, [handleSubmit]);
 
   const ActivityIndicatorElement = useCallback(() => {
     return (
@@ -122,6 +115,13 @@ export default function PCDetailsScreenFormik() {
       </View>
     );
   }, []);
+
+  const onNavCameraScreenFrontFormik = useCallback(() => {
+    navigate('CameraScreenFormik', { photoType: 'front' });
+  }, [navigate]);
+  const onNavCameraScreenBackFormik = useCallback(() => {
+    navigate('CameraScreenFormik', { photoType: 'back' });
+  }, [navigate]);
 
   useEffect(() => {
     if (countries) {
@@ -133,22 +133,17 @@ export default function PCDetailsScreenFormik() {
     if (value) {
       const myCountry = countries?.find(x => x.name === value);
       if (myCountry) {
-        dispatch(setCountry({ country: myCountry }));
+        formik.setFieldValue('country', myCountry);
       }
     }
-  }, [countries, dispatch, value]);
-
-  // useEffect(() => {
-  //   formik.setValues({
-  //     bookBorrowDate,
-  //     bookReturnDate,
-  //     country: country?.name || '',
-  //     bookPhotoFront: bookPhotoFront || '',
-  //     bookPhotoBack: bookPhotoBack || '',
-  //   });
-  // }, [bookBorrowDate, bookReturnDate, country, bookPhotoFront, bookPhotoBack, formik]);
-
-  //
+    if (bookPhotoFront) {
+      formik.setFieldValue('bookPhotoFront', bookPhotoFront);
+    }
+    if (bookPhotoBack) {
+      formik.setFieldValue('bookPhotoBack', bookPhotoBack);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [countries, value, bookPhotoBack, bookPhotoFront]);
 
   return (
     <View style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
@@ -157,18 +152,19 @@ export default function PCDetailsScreenFormik() {
       <View>
         <Button title="Select a borrowing date" onPress={showDatePickerBorrow} />
         <Text style={styles.textDes}>
-          Borrow Date: {bookBorrowDate ? moment(bookBorrowDate).format('DD / MM / yyyy') : ''}
+          Borrow Date:{' '}
+          {formik.values.bookBorrowDate ? moment(formik.values.bookBorrowDate).format('DD / MM / yyyy') : ''}
         </Text>
         <DateTimePickerModal
           isVisible={isDatePickerVisibleBorrow}
           mode="date"
           onConfirm={handleConfirmBorrow}
           onCancel={hideDatePickerBorrow}
-          date={bookBorrowDate ?? new Date()}
+          date={formik.values.bookBorrowDate ?? new Date()}
           maximumDate={new Date()}
         />
         {touched.bookBorrowDate && errors.bookBorrowDate ? (
-          <Text style={styles.errorText}>errors.bookBorrowDate.toString()</Text>
+          <Text style={styles.errorText}>{errors.bookBorrowDate.toString()}</Text>
         ) : null}
       </View>
 
@@ -177,19 +173,20 @@ export default function PCDetailsScreenFormik() {
       <View>
         <Button title="Select a returning date" onPress={showDatePickerReturn} />
         <Text style={styles.textDes}>
-          Return Date: {bookReturnDate ? moment(bookReturnDate).format('DD / MM / yyyy') : ''}
+          Return Date:{' '}
+          {formik.values.bookReturnDate ? moment(formik.values.bookReturnDate).format('DD / MM / yyyy') : ''}
         </Text>
         <DateTimePickerModal
           isVisible={isDatePickerVisibleReturn}
           mode="date"
           onConfirm={handleConfirmReturn}
           onCancel={hideDatePickerReturn}
-          date={bookReturnDate ?? new Date()}
+          date={formik.values.bookReturnDate ?? new Date()}
           minimumDate={bookBorrowDate ?? new Date()}
           maximumDate={new Date()}
         />
         {touched.bookReturnDate && errors.bookReturnDate ? (
-          <Text style={styles.errorText}>errors.bookReturnDate.toString()</Text>
+          <Text style={styles.errorText}>{errors.bookReturnDate.toString()}</Text>
         ) : null}
       </View>
 
@@ -207,7 +204,9 @@ export default function PCDetailsScreenFormik() {
           searchable={true}
           searchPlaceholder="Search..."
         />
-        {touched.country && errors.country ? <Text style={styles.errorText}>errors.country.toString()</Text> : null}
+        {touched.country && errors.country ? (
+          <Text style={styles.errorText}>{JSON.stringify(errors.country)}</Text>
+        ) : null}
       </View>
 
       <Text style={styles.textDes}>Images </Text>
@@ -219,7 +218,7 @@ export default function PCDetailsScreenFormik() {
           justifyContent: 'center',
           flexDirection: 'row',
         }}>
-        <TouchableOpacity onPress={() => navigate('CameraScreen', { photoType: 'front' })}>
+        <TouchableOpacity onPress={onNavCameraScreenFrontFormik}>
           <Image
             source={bookPhotoFront ? { uri: `file://${bookPhotoFront}` } : require('../../../assets/add.png')}
             style={{
@@ -230,11 +229,11 @@ export default function PCDetailsScreenFormik() {
             }}
           />
           {errors.bookPhotoFront && touched.bookPhotoFront ? (
-            <Text style={styles.errorText}>errors.bookPhotoFront.toString()</Text>
+            <Text style={styles.errorText}>{errors.bookPhotoFront.toString()}</Text>
           ) : null}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigate('CameraScreen', { photoType: 'back' })}>
+        <TouchableOpacity onPress={onNavCameraScreenBackFormik}>
           <Image
             source={bookPhotoBack ? { uri: `file://${bookPhotoBack}` } : require('../../../assets/add.png')}
             style={{
@@ -245,9 +244,19 @@ export default function PCDetailsScreenFormik() {
             }}
           />
           {errors.bookPhotoBack && touched.bookPhotoBack ? (
-            <Text style={styles.errorText}>errors.bookPhotoBack.toString()</Text>
+            <Text style={styles.errorText}>{errors.bookPhotoBack.toString()}</Text>
           ) : null}
         </TouchableOpacity>
+      </View>
+
+      <View>
+        <Text style={styles.textDes}>Input Lol </Text>
+        <TextInput
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1, color: 'black' }}
+          onChangeText={text => formik.setFieldValue('randomText', text)}
+          value={formik.values.randomText}
+        />
+        {errors.randomText ? <Text style={styles.errorText}>{errors.randomText}</Text> : null}
       </View>
 
       <TouchableOpacity style={styles.button} onPress={onSubmit}>

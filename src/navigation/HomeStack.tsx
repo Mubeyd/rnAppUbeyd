@@ -11,11 +11,11 @@ import { MediaScreen } from '../features/penaltyCalculator/screens/MediaScreen';
 import PCDetailsScreen from '../features/penaltyCalculator/screens/PCDetailsScreen';
 import PCSummaryScreen from '../features/penaltyCalculator/screens/PCSummaryScreen';
 import { PermissionsScreen } from '../features/home/screens/PermissionsScreen';
-import { CameraScreenFormik } from '../features/penaltyCalculatorFormik/screens/CameraScreen';
-import ContactsScreenFormik from '../features/penaltyCalculatorFormik/screens/ContactsScreen';
-import { MediaScreenFormik } from '../features/penaltyCalculatorFormik/screens/MediaScreen';
-import PCDetailsScreenFormik from '../features/penaltyCalculatorFormik/screens/PCDetailsScreen';
-import PCSummaryScreenFormik from '../features/penaltyCalculatorFormik/screens/PCSummaryScreen';
+import { CameraScreenFormik } from '../features/penaltyCalculatorFormik/screens/CameraScreenFormik';
+import ContactsScreenFormik from '../features/penaltyCalculatorFormik/screens/ContactsScreenFormik';
+import { MediaScreenFormik } from '../features/penaltyCalculatorFormik/screens/MediaScreenFormik';
+import PCDetailsScreenFormik from '../features/penaltyCalculatorFormik/screens/PCDetailsScreenFormik';
+import PCSummaryScreenFormik from '../features/penaltyCalculatorFormik/screens/PCSummaryScreenFormik';
 
 const Stack = createStackNavigator();
 

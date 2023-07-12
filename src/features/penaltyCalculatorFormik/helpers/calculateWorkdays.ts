@@ -1,5 +1,5 @@
 import moment, { Moment } from 'moment';
-import { WeekendsType } from '../state/bookBorrowSlice';
+import { WeekendsType } from '../db/types';
 
 export function calculateWorkdays({
   startDate,
