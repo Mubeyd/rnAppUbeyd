@@ -23,7 +23,6 @@ export interface Country {
 }
 
 export interface IBookBorrow {
-  currentContact: Contact | null;
   bookBorrowDate: Date | null;
   bookReturnDate: Date | null;
   country: Country | null;

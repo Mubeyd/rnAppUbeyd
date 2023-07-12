@@ -1,9 +1,7 @@
 import { date, object, string } from 'yup';
-// import { SchemaOf } from 'yup';
-import { Contact, Country, IBookBorrow } from '../db/types';
+import { Country } from '../db/types';
 
-export const bookBorrowValidationSchema = object<IBookBorrow>().shape({
-  currentContact: object<Contact>().required('Please select a Contact'),
+export const bookBorrowValidationSchema = object().shape({
   country: object<Country>().required('Please select a country'),
   bookBorrowDate: date().required('Please select a borrowing date'),
   bookReturnDate: date().required('Please select a returning date'),

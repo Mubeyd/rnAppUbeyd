@@ -16,7 +16,6 @@ import {
   setBookPhotoFront,
   setBookReturnDate,
   setCountry,
-  setCurrentContact,
 } from '../state/bookBorrowSlice';
 
 export default function PCDetailsScreenFormik() {
@@ -48,7 +47,6 @@ export default function PCDetailsScreenFormik() {
       country: country,
       bookPhotoFront: bookPhotoFront || '',
       bookPhotoBack: bookPhotoBack || '',
-      currentContact: currentContact,
       randomText: undefined,
     },
     validationSchema: bookBorrowValidationSchema,
@@ -58,7 +56,6 @@ export default function PCDetailsScreenFormik() {
       dispatch(setCountry({ country: values.country! }));
       dispatch(setBookPhotoFront({ bookPhotoFront: values.bookPhotoFront! }));
       dispatch(setBookPhotoBack({ bookPhotoBack: values.bookPhotoBack! }));
-      dispatch(setCurrentContact(values.currentContact!));
 
       navigate('PCSummaryScreenFormik');
     },
