@@ -2,8 +2,26 @@
 
 I this setup, you will find a React Native app setup with most of the dependencies you will need to get started building your own React Native app.
 
-Home Screenshot
-![HomeScreenshot.png](src/assets/HomeScreenshot.png)
+<div style="margin: 12px;">
+  <div style="float: left; width: 50%;">
+    <p>Home Screenshot</p>
+    <img src="src/assets/HomeScreenshot.png" alt="Home Screenshot" />
+  </div>
+  <div style="float: left; width: 50%;">
+    <p>Additional Screenshot</p>
+    <img src="src/assets/FormScreenshot.png" alt="Additional Screenshot" />
+  </div>
+</div>
+
+### What you have in this setup?
+
+- You have home screen you can navigate.
+- You have Dummy users .
+- You have Book borrowing feature with just Redux Toolkit.
+- You have Book borrowing feature with Redux Toolkit and Formik.
+- You have Book borrowing feature with Redux Toolkit and React Hook Form.
+
+Happy Coding! :heart:
 
 > **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
@@ -91,16 +109,3 @@ Now that you have successfully run the app, let's modify it.
 ## Congratulations! :tada:
 
 You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- You have home screen you can navigate.
-- You have Dummy users .
-- You have Book borrowing feature with just Redux Toolkit.
-- You have Book borrowing feature with Redux Toolkit and Formik.
-- You have Book borrowing feature with Redux Toolkit and React Hook Form.
-
-
-
-
-Happy Coding! :heart:
