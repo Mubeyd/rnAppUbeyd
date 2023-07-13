@@ -2,12 +2,13 @@
 
 I this setup, you will find a React Native app setup with most of the dependencies you will need to get started building your own React Native app.
 
-<div style="margin: 12px;">
-  <div style="float: left; width: 50%;">
+
+<div style="display: flex; margin: 12px;">
+  <div style="flex: 1; margin-right: 12px;">
     <p>Home Screenshot</p>
     <img src="src/assets/HomeScreenshot.png" alt="Home Screenshot" />
   </div>
-  <div style="float: left; width: 50%;">
+  <div style="flex: 1; margin-left: 12px;">
     <p>Additional Screenshot</p>
     <img src="src/assets/FormScreenshot.png" alt="Additional Screenshot" />
   </div>
