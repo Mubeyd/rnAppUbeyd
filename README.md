@@ -1,12 +1,15 @@
-
 # Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+I this setup, you will find a React Native app setup with most of the dependencies you will need to get started building your own React Native app.
+
+Home Screenshot
+![HomeScreenshot.jpeg](src/assets/HomeScreenshot.jpeg)
+
+> **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
 ## Step 1: Install the Dependencies
 
 First, you will need to install node modules.
-
 
 ```bash
 # using npm
@@ -15,6 +18,7 @@ npm i
 # OR using Yarn
 yarn
 ```
+
 ## Step 2: Start the Metro Server
 
 First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
@@ -84,7 +88,6 @@ Now get the url from ngrok and replace it in the `.env` file.
 
 Now that you have successfully run the app, let's modify it.
 
-
 ## Congratulations! :tada:
 
 You've successfully run and modified your React Native App. :partying_face:
@@ -93,7 +96,11 @@ You've successfully run and modified your React Native App. :partying_face:
 
 - You have home screen you can navigate.
 - You have Dummy users .
-- You have Book borrowing feature.
+- You have Book borrowing feature with just Redux Toolkit.
+- You have Book borrowing feature with Redux Toolkit and Formik.
+- You have Book borrowing feature with Redux Toolkit and React Hook Form.
 
 
-![add.png](src/assets/add.png)
+
+
+Happy Coding! :heart:

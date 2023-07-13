@@ -26,7 +26,7 @@ export default function HomeScreen() {
       <Text style={styles.textHeader}>Select Feature </Text>
 
       <TouchableOpacity style={styles.button} onPress={onNavBookBorrowing}>
-        <Text style={styles.buttonText}>Book Borrowing</Text>
+        <Text style={styles.buttonText}>Book Borrowing just Redux</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button} onPress={onNavBookBorrowingFormik}>
