@@ -5,17 +5,22 @@ import NewUserScreen from '../features/dummyUsers/screens/NewUserScreen';
 import UserDetailsScreen from '../features/dummyUsers/screens/UserDetailsScreen';
 import UsersListScreen from '../features/dummyUsers/screens/UsersListScreen';
 import HomeScreen from '../features/home/screens/HomeScreen';
+import { PermissionsScreen } from '../features/home/screens/PermissionsScreen';
 import { CameraScreen } from '../features/penaltyCalculator/screens/CameraScreen';
 import ContactsScreen from '../features/penaltyCalculator/screens/ContactsScreen';
 import { MediaScreen } from '../features/penaltyCalculator/screens/MediaScreen';
 import PCDetailsScreen from '../features/penaltyCalculator/screens/PCDetailsScreen';
 import PCSummaryScreen from '../features/penaltyCalculator/screens/PCSummaryScreen';
-import { PermissionsScreen } from '../features/home/screens/PermissionsScreen';
 import { CameraScreenFormik } from '../features/penaltyCalculatorFormik/screens/CameraScreenFormik';
 import ContactsScreenFormik from '../features/penaltyCalculatorFormik/screens/ContactsScreenFormik';
 import { MediaScreenFormik } from '../features/penaltyCalculatorFormik/screens/MediaScreenFormik';
 import PCDetailsScreenFormik from '../features/penaltyCalculatorFormik/screens/PCDetailsScreenFormik';
 import PCSummaryScreenFormik from '../features/penaltyCalculatorFormik/screens/PCSummaryScreenFormik';
+import { CameraScreenRHForm } from '../features/penaltyCalculatorRHForm/screens/CameraScreenRHForm';
+import ContactsScreenRHForm from '../features/penaltyCalculatorRHForm/screens/ContactsScreenRHForm';
+import { MediaScreenRHForm } from '../features/penaltyCalculatorRHForm/screens/MediaScreenRHForm';
+import PCDetailsScreenRHForm from '../features/penaltyCalculatorRHForm/screens/PCDetailsScreenRHForm';
+import PCSummaryScreenRHForm from '../features/penaltyCalculatorRHForm/screens/PCSummaryScreenRHForm';
 
 const Stack = createStackNavigator();
 
@@ -140,6 +145,44 @@ export function HomeStack() {
       <Stack.Screen
         name="MediaScreenFormik"
         component={MediaScreenFormik}
+        options={{
+          title: 'Media Screen',
+        }}
+      />
+
+      {/* Book Borrow with React Hook Form */}
+
+      <Stack.Screen
+        name="ContactsScreenRHForm"
+        component={ContactsScreenRHForm}
+        options={{
+          title: 'Contacts Screen',
+        }}
+      />
+      <Stack.Screen
+        name="PCDetailsScreenRHForm"
+        component={PCDetailsScreenRHForm}
+        options={{
+          title: 'PC Details Screen',
+        }}
+      />
+      <Stack.Screen
+        name="PCSummaryScreenRHForm"
+        component={PCSummaryScreenRHForm}
+        options={{
+          title: 'PC Summary Screen',
+        }}
+      />
+      <Stack.Screen
+        name="CameraScreenRHForm"
+        component={CameraScreenRHForm}
+        options={{
+          title: 'Camera Screen',
+        }}
+      />
+      <Stack.Screen
+        name="MediaScreenRHForm"
+        component={MediaScreenRHForm}
         options={{
           title: 'Media Screen',
         }}
