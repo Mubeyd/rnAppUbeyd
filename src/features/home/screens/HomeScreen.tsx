@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     height: 40,
     justifyContent: 'center',
+    margin: 4,
     paddingHorizontal: 16,
     paddingVertical: 8,
   },

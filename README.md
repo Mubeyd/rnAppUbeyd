@@ -3,7 +3,7 @@
 I this setup, you will find a React Native app setup with most of the dependencies you will need to get started building your own React Native app.
 
 Home Screenshot
-![HomeScreenshot.jpeg](src/assets/HomeScreenshot.jpeg)
+![HomeScreenshot.png](src/assets/HomeScreenshot.png)
 
 > **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
